@@ -126,7 +126,7 @@ class _FindClientPageState extends State<FindClientPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
       ),
-      builder: (BuildContext context) {
+      builder: (context) {
         return BalanceModalBottom(client.id);
       },
     );
