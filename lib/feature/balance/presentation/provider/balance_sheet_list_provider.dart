@@ -29,4 +29,20 @@ class BalanceSheetListProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void findBalanceSheetByClient(String clientName) async {
+    if (clientName.isEmpty) {
+      getBalanceSheets();
+      notifyListeners();
+      return;
+    }
+    final res = await BalanceSheetRepoImpl().findBalanceSheetByClient(
+      clientName,
+    );
+    if (res.success) {
+      _balanceSheets.clear();
+      _balanceSheets.addAll(res.data!);
+      notifyListeners();
+    }
+  }
 }

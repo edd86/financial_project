@@ -129,4 +129,65 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
       return Response.error(e.toString());
     }
   }
+
+  @override
+  Future<Response<List<BalanceSheetsClient>>> findBalanceSheetByClient(
+    String clientName,
+  ) async {
+    final db = await DatabaseHelper().database;
+    List<BalanceSheetsClient> balanceSheetsClient = [];
+    try {
+      final clientRes = await db.query(
+        'clients',
+        where: 'business_name LIKE ?',
+        whereArgs: ['%$clientName%'],
+      );
+      if (clientRes.isEmpty) {
+        return Response.success([], message: 'No se encontró el cliente');
+      }
+      final clientFound = BalanceClientMapper.toEntity(
+        BalanceClientModel.fromMap(clientRes.first),
+      );
+      final resBalanceSheet = await db.query(
+        'balance_sheets',
+        where: 'client_id = ?',
+        whereArgs: [clientFound.id],
+        orderBy: 'created_at DESC',
+      );
+      if (resBalanceSheet.isEmpty) {
+        return Response.success([], message: 'No se encontraron balances');
+      }
+      final balanceSheets = resBalanceSheet
+          .map(
+            (map) =>
+                BalanceSheetMapper.toEntity(BalanceSheetModel.fromMap(map)),
+          )
+          .toList();
+      for (var balance in balanceSheets) {
+        final resBalanceClient = await db.query(
+          'clients',
+          where: 'id = ?',
+          whereArgs: [balance.clientId],
+        );
+        if (resBalanceClient.isEmpty) {
+          continue;
+        }
+        final clientFound = BalanceClientMapper.toEntity(
+          BalanceClientModel.fromMap(resBalanceClient.first),
+        );
+        balanceSheetsClient.add(
+          BalanceSheetsClient(
+            balanceSheet: balance,
+            balanceClient: clientFound,
+          ),
+        );
+      }
+      return Response.success(
+        balanceSheetsClient,
+        message: 'Balances encontrados',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }

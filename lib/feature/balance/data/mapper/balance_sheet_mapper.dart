@@ -4,6 +4,7 @@ import 'package:financial_project/feature/balance/domain/model/balance_sheet.dar
 class BalanceSheetMapper {
   static BalanceSheet toEntity(BalanceSheetModel model) {
     return BalanceSheet(
+      id: model.id,
       clientId: model.clientId,
       balanceDate: model.balanceDate,
       period: model.period,
@@ -16,6 +17,7 @@ class BalanceSheetMapper {
 
   static BalanceSheetModel toModel(BalanceSheet entity) {
     return BalanceSheetModel(
+      id: entity.id,
       clientId: entity.clientId,
       balanceDate: entity.balanceDate,
       period: entity.period,

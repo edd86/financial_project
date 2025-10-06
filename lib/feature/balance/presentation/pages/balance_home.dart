@@ -1,6 +1,8 @@
+import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/feature/balance/presentation/pages/find_client_page.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
+import 'package:financial_project/feature/balance/presentation/widget/balance_client_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -13,11 +15,21 @@ class BalanceHome extends StatefulWidget {
 }
 
 class _BalanceHomeState extends State<BalanceHome> {
+  final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<BalanceSheetListProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Balance'),
+        title: AnimatedSearchBar(
+          controller: _searchController,
+          label: 'Balances',
+          labelStyle: TextStyle(fontSize: 19.sp),
+          searchStyle: TextStyle(fontSize: 17.85.sp, color: Colors.white),
+          onChanged: (value) {
+            provider.findBalanceSheetByClient(value);
+          },
+        ),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
@@ -31,9 +43,12 @@ class _BalanceHomeState extends State<BalanceHome> {
               itemBuilder: (context, index) {
                 final balance = balances[index].balanceSheet;
                 final client = balances[index].balanceClient;
-                return ListTile(
-                  title: Text(client.businessName),
-                  subtitle: Text(balance.period),
+                return Padding(
+                  padding: EdgeInsetsGeometry.symmetric(horizontal: 12.8.sp),
+                  child: BalanceClientTile(
+                    balanceSheet: balance,
+                    balanceClient: client,
+                  ),
                 );
               },
             );

@@ -8,4 +8,7 @@ abstract class BalanceSheetRepo {
   Future<Response<List<BalanceSheet>>> getAllBalances();
   Future<Response<List<BalanceClient>>> getClientByName(String name);
   Future<Response<List<BalanceSheetsClient>>> getClientBalanceSheets();
+  Future<Response<List<BalanceSheetsClient>>> findBalanceSheetByClient(
+    String clientName,
+  );
 }
