@@ -1,3 +1,5 @@
+//TODO: Almacenar cobros por el servicio, Menu de usuarios, Estado de resultados
+
 List<String> dbSchemes = [
   '''CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
