@@ -11,15 +11,21 @@ class DrawerElement {
 final List<DrawerElement> drawerElements = [
   DrawerElement(Icons.home, 'Inicio', 'Pantalla de inicio', '/home'),
   DrawerElement(
+    Icons.person,
+    'Usuarios',
+    'Administración de usuarios',
+    '/user-home',
+  ),
+  DrawerElement(
     Icons.business,
     'Clientes',
-    'Pantalla de clientes',
+    'Administración de clientes',
     '/clients-home',
   ),
   DrawerElement(
     Icons.balance,
     'Balance',
-    'Pantalla de balance',
+    'Manejo de balances',
     '/balance-home',
   ),
 ];
