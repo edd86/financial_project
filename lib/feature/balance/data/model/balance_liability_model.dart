@@ -6,8 +6,8 @@ class BalanceLiabilityModel {
   final String? category;
   final double amount;
   final String? description;
-  final String createdAt;
-  final String updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   BalanceLiabilityModel({
     this.id,
@@ -17,22 +17,22 @@ class BalanceLiabilityModel {
     this.category,
     this.amount = 0.0,
     this.description,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   /// Convierte un Map (fila de SQLite) en un objeto LiabilityModel
   factory BalanceLiabilityModel.fromMap(Map<String, dynamic> map) {
     return BalanceLiabilityModel(
-      id: map['id'] as int?,
-      balanceSheetId: map['balance_sheet_id'] as int,
-      name: map['name'] as String,
-      type: map['type'] as String,
-      category: map['category'] as String?,
-      amount: (map['amount'] as num).toDouble(),
-      description: map['description'] as String?,
-      createdAt: map['created_at'] as String,
-      updatedAt: map['updated_at'] as String,
+      id: map['id'],
+      balanceSheetId: map['balance_sheet_id'],
+      name: map['name'],
+      type: map['type'],
+      category: map['category'],
+      amount: map['amount'],
+      description: map['description'],
+      createdAt: DateTime.parse(map['created_at']),
+      updatedAt: DateTime.parse(map['updated_at']),
     );
   }
 
@@ -46,8 +46,8 @@ class BalanceLiabilityModel {
       'category': category,
       'amount': amount,
       'description': description,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'created_at': createdAt!.toIso8601String(),
+      'updated_at': updatedAt!.toIso8601String(),
     };
   }
 
@@ -60,8 +60,8 @@ class BalanceLiabilityModel {
     String? category,
     double? amount,
     String? description,
-    String? createdAt,
-    String? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return BalanceLiabilityModel(
       id: id ?? this.id,

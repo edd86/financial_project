@@ -6,8 +6,8 @@ class BalanceLiability {
   final String? category;
   final double amount;
   final String? description;
-  final String createdAt;
-  final String updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   BalanceLiability({
     this.id,
@@ -17,7 +17,7 @@ class BalanceLiability {
     this.category,
     this.amount = 0.0,
     this.description,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 }

@@ -5,7 +5,7 @@ import 'package:financial_project/feature/balance/data/model/balance_liability_m
 import 'package:financial_project/feature/balance/domain/model/balance_liability.dart';
 import 'package:financial_project/feature/balance/domain/repo/balance_liability_repo.dart';
 
-class LiabilityRepoImpl implements BalanceLiabilityRepo {
+class BalanceLiabilityRepoImpl implements BalanceLiabilityRepo {
   @override
   Future<Response<List<BalanceLiability>>> getBalanceLiabilities(
     int balanceSheetId,
