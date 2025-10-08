@@ -39,6 +39,7 @@ class BalanceAssetRepoImpl implements BalanceAssetRepo {
     }
     return Response.success(
       BalanceAssetMapper.toEntity(balanceModel.copyWith(id: res)),
+      message: 'Cuenta de activo resgistrada.',
     );
   }
 
