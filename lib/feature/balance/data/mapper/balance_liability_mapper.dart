@@ -11,8 +11,8 @@ class BalanceLiabilityMapper {
       category: balanceLiability.category,
       amount: balanceLiability.amount,
       description: balanceLiability.description,
-      createdAt: balanceLiability.createdAt,
-      updatedAt: balanceLiability.updatedAt,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -27,8 +27,6 @@ class BalanceLiabilityMapper {
       category: balanceLiabilityModel.category,
       amount: balanceLiabilityModel.amount,
       description: balanceLiabilityModel.description,
-      createdAt: balanceLiabilityModel.createdAt,
-      updatedAt: balanceLiabilityModel.updatedAt,
     );
   }
 }
