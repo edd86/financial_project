@@ -1,8 +1,10 @@
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/feature/balance/data/repo/balance_asset_repo_impl.dart';
+import 'package:financial_project/feature/balance/data/repo/balance_equity_repo_impl.dart';
 import 'package:financial_project/feature/balance/data/repo/balance_liability_repo_impl.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_asset.dart';
+import 'package:financial_project/feature/balance/domain/model/balance_equity.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_liability.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -44,8 +46,14 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
                   items: _accounts
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
-                  onChanged: (value) =>
-                      setState(() => _selectedAccount = value!),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedAccount = value!;
+                      if (_selectedAccount == 'Patrimonio') {
+                        _selectedAccountType = null;
+                      }
+                    });
+                  },
                 ),
                 _spacer,
                 TextFormField(
@@ -70,8 +78,14 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
                   items: _accountTypes
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
-                  onChanged: (value) =>
-                      setState(() => _selectedAccountType = value!),
+                  onChanged: _selectedAccount == 'Patrimonio'
+                      ? null
+                      : (value) =>
+                            setState(() => _selectedAccountType = value!),
+                  disabledHint: Text(
+                    _selectedAccountType ?? 'No aplica',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
                 _spacer,
                 TextFormField(
@@ -116,7 +130,8 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate() &&
                           _selectedAccount != null &&
-                          _selectedAccountType != null) {
+                          (_selectedAccountType != null ||
+                              _selectedAccount == 'Patrimonio')) {
                         switch (_selectedAccount!.toLowerCase()) {
                           case 'activos':
                             final newBalanceAsset = BalanceAsset(
@@ -144,11 +159,43 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
                               description: _descriptionConroller.text,
                             );
                             final balanceLiabilityRes =
-                                BalanceLiabilityRepoImpl().addBalanceLiability(
-                                  newBalanceLiability,
-                                );
+                                await BalanceLiabilityRepoImpl()
+                                    .addBalanceLiability(newBalanceLiability);
+                            if (balanceLiabilityRes.success) {
+                              _showMessage(balanceLiabilityRes);
+                              _backPage();
+                            } else {
+                              _showMessage(balanceLiabilityRes);
+                            }
+                          case 'patrimonio':
+                            final newBalanceEquity = BalanceEquity(
+                              balanceSheetId: widget.balanceSheetId,
+                              name: _nameController.text,
+                              amount: double.parse(_amountController.text),
+                              description: _descriptionConroller.text,
+                            );
+                            final balanceEquityRes =
+                                await BalanceEquityRepoImpl()
+                                    .createBalanceEquity(newBalanceEquity);
+                            if (balanceEquityRes.success) {
+                              _showMessage(balanceEquityRes);
+                              _backPage();
+                            } else {
+                              _showMessage(balanceEquityRes);
+                            }
                           default:
+                            _showMessage(
+                              Response.error(
+                                'La naturaleza de la cuenta es requerida',
+                              ),
+                            );
                         }
+                      } else {
+                        _showMessage(
+                          Response.error(
+                            'La naturaleza de la cuenta es requerida',
+                          ),
+                        );
                       }
                     },
                   ),
@@ -161,11 +208,11 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
     );
   }
 
-  void _showMessage(Response balanceAssetRes) {
+  void _showMessage(Response response) {
     ScaffoldMessenger.of(context).showSnackBar(
       GlobalWidgets.customSnackBar(
-        balanceAssetRes.message,
-        balanceAssetRes.success ? Colors.deepPurple : Colors.redAccent,
+        response.message,
+        response.success ? Colors.deepPurple : Colors.redAccent,
       ),
     );
   }
