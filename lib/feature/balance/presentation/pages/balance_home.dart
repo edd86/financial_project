@@ -1,5 +1,6 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:financial_project/core/global_widgets.dart';
+import 'package:financial_project/feature/balance/presentation/pages/balance_resume.dart';
 import 'package:financial_project/feature/balance/presentation/pages/find_client_page.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
 import 'package:financial_project/feature/balance/presentation/widget/balance_client_tile.dart';
@@ -45,9 +46,20 @@ class _BalanceHomeState extends State<BalanceHome> {
                 final client = balances[index].balanceClient;
                 return Padding(
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 12.8.sp),
-                  child: BalanceClientTile(
-                    balanceSheet: balance,
-                    balanceClient: client,
+                  child: GestureDetector(
+                    child: BalanceClientTile(
+                      balanceSheet: balance,
+                      balanceClient: client,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              BalanceResume(balanceId: balance.id!),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

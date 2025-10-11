@@ -2,9 +2,13 @@ import 'package:financial_project/core/response.dart';
 import 'package:financial_project/db/helper/db_helper.dart';
 import 'package:financial_project/feature/balance/data/mapper/balance_client_mapper.dart';
 import 'package:financial_project/feature/balance/data/mapper/balance_sheet_mapper.dart';
+import 'package:financial_project/feature/balance/data/model/balance_asset_model.dart';
 import 'package:financial_project/feature/balance/data/model/balance_client_model.dart';
+import 'package:financial_project/feature/balance/data/model/balance_equity_model.dart';
+import 'package:financial_project/feature/balance/data/model/balance_liability_model.dart';
 import 'package:financial_project/feature/balance/data/model/balance_sheet_model.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_client.dart';
+import 'package:financial_project/feature/balance/domain/model/balance_resume_entity.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_sheet.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_sheets_client.dart';
 import 'package:financial_project/feature/balance/domain/repo/balance_sheet_repo.dart';
@@ -185,6 +189,62 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
       return Response.success(
         balanceSheetsClient,
         message: 'Balances encontrados',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<BalanceResumeEntity>> getBalanceResume(int balanceId) async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final assetsRes = await db.query(
+        'assets',
+        where: 'balance_sheet_id = ?',
+        whereArgs: [balanceId],
+      );
+      final liabilitiesRes = await db.query(
+        'liabilities',
+        where: 'balance_sheet_id = ?',
+        whereArgs: [balanceId],
+      );
+      final equityRes = await db.query(
+        'equity',
+        where: 'balance_sheet_id = ?',
+        whereArgs: [balanceId],
+      );
+      if (assetsRes.isEmpty && liabilitiesRes.isEmpty && equityRes.isEmpty) {
+        return Response.error('No existen cuentas registradas');
+      }
+      final assetsModel = assetsRes
+          .map((asset) => BalanceAssetModel.fromMap(asset))
+          .toList();
+      final liabilitiesModel = liabilitiesRes
+          .map((liability) => BalanceLiabilityModel.fromMap(liability))
+          .toList();
+      final equitiesModel = equityRes
+          .map((equity) => BalanceEquityModel.fromMap(equity))
+          .toList();
+      final totalAssets = assetsModel.fold(
+        0.0,
+        (sum, element) => sum + element.amount,
+      );
+      final totalLiabilities = liabilitiesModel.fold(
+        0.0,
+        (sum, element) => sum + element.amount,
+      );
+      final totalequities = equitiesModel.fold(
+        0.0,
+        (sum, element) => sum + element.amount,
+      );
+      return Response.success(
+        BalanceResumeEntity(
+          totalAssets: totalAssets,
+          totalLiabilities: totalLiabilities,
+          totalEquity: totalequities,
+        ),
       );
     } catch (e) {
       return Response.error(e.toString());
