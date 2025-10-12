@@ -40,7 +40,7 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
     try {
       final List<Map<String, dynamic>> maps = await db.query(
         'balance_sheets',
-        orderBy: 'balance_date DESC',
+        orderBy: 'updated_at DESC',
       );
       if (maps.isEmpty) {
         return Response.success([], message: 'No se encontraron balances');

@@ -1,4 +1,5 @@
 import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
+import 'package:financial_project/feature/balance/presentation/pages/balance_assets_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -58,9 +59,29 @@ class BalanceResume extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Activos',
-                              style: TextStyle(fontSize: 16.85.sp),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Activos',
+                                  style: TextStyle(fontSize: 16.85.sp),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.launch,
+                                    size: 15.65.sp,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BalanceAssetsPage(
+                                        balanceId: balanceId,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
                               '${balanceResume!.totalAssets} bs.',
@@ -86,9 +107,22 @@ class BalanceResume extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Pasivos',
-                              style: TextStyle(fontSize: 16.85.sp),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pasivos',
+                                  style: TextStyle(fontSize: 16.85.sp),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.launch,
+                                    size: 15.65.sp,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ],
                             ),
                             Text(
                               '${balanceResume.totalLiabilities} bs.',
@@ -150,7 +184,11 @@ class BalanceResume extends StatelessWidget {
                         child: SfCartesianChart(
                           primaryXAxis: CategoryAxis(),
                           primaryYAxis: NumericAxis(
-                            interval: 500,
+                            interval:
+                                balanceResume.totalAssets >
+                                    balanceResume.totalLiabilities
+                                ? balanceResume.totalAssets / 10
+                                : balanceResume.totalLiabilities / 10,
                             maximum:
                                 balanceResume.totalAssets >
                                     balanceResume.totalLiabilities
@@ -232,6 +270,19 @@ class BalanceResume extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.2.w),
+                      child: Text(
+                        'Estos indicadores muestran la salud financiera de la empresa, con un ratio de liquidez y endeudamiento que indican su capacidad para cubrir sus obligaciones y generar ingresos.',
+                        style: TextStyle(
+                          fontSize: 13.85.sp,
+                          color: Colors.grey,
                         ),
                       ),
                     ),

@@ -5,4 +5,5 @@ abstract class BalanceAssetRepo {
   Future<Response<List<BalanceAsset>>> getBalanceAssets(int balanceSheetId);
   Future<Response<BalanceAsset>> addBalanceAsset(BalanceAsset balanceAsset);
   Future<Response<BalanceAsset>> updateBalanceAsset(BalanceAsset balanceAsset);
+  Future<Response<BalanceAsset>> deleteBalanceAsset(BalanceAsset balanceAsset);
 }

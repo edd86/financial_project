@@ -12,19 +12,26 @@ class BalanceAssetRepoImpl implements BalanceAssetRepo {
   ) async {
     final db = await DatabaseHelper().database;
 
-    final res = await db.query(
-      'assets',
-      where: 'balance_sheet_id = ?',
-      whereArgs: [balanceSheetId],
-    );
-    if (res.isEmpty) {
-      return Response.error('No assets found');
+    try {
+      final res = await db.query(
+        'assets',
+        where: 'balance_sheet_id = ?',
+        whereArgs: [balanceSheetId],
+      );
+      if (res.isEmpty) {
+        return Response.error('No se encontraron activos');
+      }
+      return Response.success(
+        res
+            .map(
+              (asset) =>
+                  BalanceAssetMapper.toEntity(BalanceAssetModel.fromMap(asset)),
+            )
+            .toList(),
+      );
+    } catch (e) {
+      return Response.error('Error al obtener activos: $e');
     }
-    return Response.success(
-      res
-          .map((e) => BalanceAssetMapper.toEntity(BalanceAssetModel.fromMap(e)))
-          .toList(),
-    );
   }
 
   @override
@@ -51,13 +58,34 @@ class BalanceAssetRepoImpl implements BalanceAssetRepo {
     final balanceModel = BalanceAssetMapper.toModel(balanceAsset);
     final res = await db.update(
       'assets',
-      balanceModel.toMap(),
+      balanceModel.copyWith(updatedAt: DateTime.now()).toMap(),
       where: 'id = ?',
       whereArgs: [balanceModel.id],
     );
     if (res <= 0) {
-      return Response.error('Failed to update asset');
+      return Response.error('Error al intentar actualizar.');
     }
     return Response.success(BalanceAssetMapper.toEntity(balanceModel));
+  }
+
+  @override
+  Future<Response<BalanceAsset>> deleteBalanceAsset(
+    BalanceAsset balanceAsset,
+  ) async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final res = await db.delete(
+        'assets',
+        where: 'id = ?',
+        whereArgs: [balanceAsset.id!],
+      );
+      if (res <= 0) {
+        return Response.error('No se encontro el activo');
+      }
+      return Response.success(balanceAsset, message: 'Activo eliminado.');
+    } catch (e) {
+      return Response.error('Error al eliminar activo: $e');
+    }
   }
 }

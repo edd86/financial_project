@@ -122,7 +122,7 @@ class _BalanceModalBottomState extends State<BalanceModalBottom> {
                       // Actualizamos el provider con el nuevo balance
                       balanceListProvider.getBalanceSheets();
                       // Cerramos el modal
-                      Navigator.pop(context);
+                      _backPage();
                     } else {
                       _showMessage(res);
                     }
@@ -145,5 +145,9 @@ class _BalanceModalBottomState extends State<BalanceModalBottom> {
         res.success ? Colors.deepPurple : Colors.redAccent,
       ),
     );
+  }
+
+  void _backPage() {
+    Navigator.pop(context);
   }
 }

@@ -74,7 +74,7 @@ class _AlertDialogOptionsState extends State<AlertDialogOptions> {
                 _spacer,
                 DropdownButton<String>(
                   value: _selectedAccountType,
-                  hint: Text('Naturaleza de la cuenta'),
+                  hint: Text('Naturaleza'),
                   items: _accountTypes
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
