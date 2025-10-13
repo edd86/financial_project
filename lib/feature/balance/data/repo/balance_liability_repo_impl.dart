@@ -13,7 +13,7 @@ class BalanceLiabilityRepoImpl implements BalanceLiabilityRepo {
     final db = await DatabaseHelper().database;
     try {
       final res = await db.query(
-        'balance_liabilities',
+        'liabilities',
         where: 'balance_sheet_id = ?',
         whereArgs: [balanceSheetId],
       );
@@ -50,6 +50,53 @@ class BalanceLiabilityRepoImpl implements BalanceLiabilityRepo {
       return Response.success(
         BalanceLiabilityMapper.toEntity(balanceLiabilityModel.copyWith(id: id)),
         message: 'Pasivo agregado correctamente',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<BalanceLiability>> deleteBalanceLiability(
+    BalanceLiability balanceLiability,
+  ) async {
+    final db = await DatabaseHelper().database;
+    try {
+      final res = await db.delete(
+        'liabilities',
+        where: 'balance_sheet_id = ?',
+        whereArgs: [balanceLiability.id],
+      );
+      if (res <= 0) {
+        return Response.error('Error al eliminar el pasivo');
+      }
+      return Response.success(
+        balanceLiability,
+        message: 'Pasivo eliminado correctamente',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<BalanceLiability>> updateLiability(
+    BalanceLiability liablility,
+  ) async {
+    final db = await DatabaseHelper().database;
+    final liabilityModel = BalanceLiabilityMapper.toModel(liablility);
+
+    try {
+      final res = await db.update(
+        'liabilities',
+        liabilityModel.copyWith(updatedAt: DateTime.now()).toMap(),
+      );
+      if (res <= 0) {
+        return Response.error('No se pudo actualizar la ceunta');
+      }
+      return Response.success(
+        liablility,
+        message: 'Pasivo actualizado correctamente',
       );
     } catch (e) {
       return Response.error(e.toString());

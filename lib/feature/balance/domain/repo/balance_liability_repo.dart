@@ -8,4 +8,10 @@ abstract class BalanceLiabilityRepo {
   Future<Response<BalanceLiability>> addBalanceLiability(
     BalanceLiability balanceLiability,
   );
+  Future<Response<BalanceLiability>> deleteBalanceLiability(
+    BalanceLiability balanceLiability,
+  );
+  Future<Response<BalanceLiability>> updateLiability(
+    BalanceLiability liablility,
+  );
 }
