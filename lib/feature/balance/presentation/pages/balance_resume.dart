@@ -1,5 +1,6 @@
 import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_assets_page.dart';
+import 'package:financial_project/feature/balance/presentation/pages/balance_liabilities_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -120,7 +121,15 @@ class BalanceResume extends StatelessWidget {
                                     size: 15.65.sp,
                                     color: Colors.grey,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BalanceLiabilitiesPage(
+                                            balanceId: balanceId,
+                                          ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
