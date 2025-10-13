@@ -1,3 +1,4 @@
+import 'package:financial_project/core/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UserHomePage extends StatelessWidget {
@@ -5,6 +6,16 @@ class UserHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Usuarios',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      drawer: GlobalWidgets.customDrawer(context),
+    );
   }
 }
