@@ -8,6 +8,7 @@ import 'package:financial_project/feature/balance/presentation/provider/clients_
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_home_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_obligations_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/search_client_provider.dart';
+import 'package:financial_project/feature/user_managment/presentation/provider/user_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,9 @@ void main() async {
         ),
         ChangeNotifierProvider<BalanceLiabilitiesProvider>(
           create: (_) => BalanceLiabilitiesProvider(),
+        ),
+        ChangeNotifierProvider<UserListProvider>(
+          create: (_) => UserListProvider(),
         ),
       ],
       child: const MainApp(),
