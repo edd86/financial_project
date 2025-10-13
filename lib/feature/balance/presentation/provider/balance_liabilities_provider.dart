@@ -4,18 +4,17 @@ import 'package:financial_project/feature/balance/domain/model/balance_liability
 import 'package:flutter/material.dart';
 
 class BalanceLiabilitiesProvider extends ChangeNotifier {
-  Response<List<BalanceLiability>> _balanceLiabilities =
-      Response.success([]);
-      int? _currentBalanceId;
+  Response<List<BalanceLiability>> _balanceLiabilities = Response.success([]);
+  int? _currentBalanceId;
 
-  Response<List<BalanceLiability>> get balanceLiabilities => _balanceLiabilities;
+  Response<List<BalanceLiability>> get balanceLiabilities =>
+      _balanceLiabilities;
   int? get currentBalanceId => _currentBalanceId;
 
   void setBalanceLiabilities(int balanceId) async {
     _currentBalanceId = balanceId;
-    final balanceLiabilities = await BalanceLiabilityRepoImpl().getBalanceLiabilities(
-      balanceId,
-    );
+    final balanceLiabilities = await BalanceLiabilityRepoImpl()
+        .getBalanceLiabilities(balanceId);
     _balanceLiabilities = balanceLiabilities;
     notifyListeners();
   }
@@ -26,10 +25,15 @@ class BalanceLiabilitiesProvider extends ChangeNotifier {
     }
   }
 
-  Future<Response<BalanceLiability>> deleteLiability(BalanceLiability liability) async {
-    final result = await BalanceLiabilityRepoImpl().deleteBalanceLiability(liability);
+  Future<Response<BalanceLiability>> deleteLiability(
+    BalanceLiability liability,
+  ) async {
+    final result = await BalanceLiabilityRepoImpl().deleteBalanceLiability(
+      liability,
+    );
     if (result.success) {
       refreshLiabilities();
+      return Response.success(liability);
     }
     return result;
   }

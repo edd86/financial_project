@@ -64,7 +64,7 @@ class BalanceLiabilityRepoImpl implements BalanceLiabilityRepo {
     try {
       final res = await db.delete(
         'liabilities',
-        where: 'balance_sheet_id = ?',
+        where: 'id = ?',
         whereArgs: [balanceLiability.id],
       );
       if (res <= 0) {

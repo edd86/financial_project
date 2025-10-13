@@ -130,7 +130,6 @@ class _BalanceLiabilityModalBottomState
                       type: widget.balanceLiability.type,
                       amount: double.parse(_amountController.text),
                     );
-
                     final res = await BalanceLiabilityRepoImpl()
                         .updateLiability(liablility);
                     if (res.success) {
@@ -159,7 +158,10 @@ class _BalanceLiabilityModalBottomState
   }
 
   void _backPage() {
-    Provider.of<BalanceLiabilitiesProvider>(context, listen: false).refreshLiabilities();
+    Provider.of<BalanceLiabilitiesProvider>(
+      context,
+      listen: false,
+    ).refreshLiabilities();
     Navigator.of(
       context,
     ).pushNamedAndRemoveUntil('/balance-home', (route) => false);

@@ -1,5 +1,6 @@
 import 'package:financial_project/feature/balance/domain/model/balance_liability.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_liabilities_provider.dart';
+import 'package:financial_project/feature/balance/presentation/widget/balance_liability_modal_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -34,7 +35,8 @@ class BalanceLiabilitiesPage extends StatelessWidget {
                   return ListView.builder(
                     itemCount: liabilities.length,
                     itemBuilder: (context, index) {
-                      final liability = snapshot.balanceLiabilities.data?[index];
+                      final liability =
+                          snapshot.balanceLiabilities.data?[index];
                       return ListTile(
                         title: Text(
                           liability?.name ?? '',
@@ -56,7 +58,8 @@ class BalanceLiabilitiesPage extends StatelessWidget {
                             Icons.chevron_right,
                             color: Colors.black54,
                           ),
-                          onPressed: () => _showBalanceForm(context, liability!),
+                          onPressed: () =>
+                              _showBalanceForm(context, liability!),
                         ),
                       );
                     },
@@ -74,6 +77,15 @@ class BalanceLiabilitiesPage extends StatelessWidget {
     BuildContext context,
     BalanceLiability balanceLiability,
   ) {
-    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+      ),
+      builder: (context) {
+        return BalanceLiabilityModalBottom(balanceLiability: balanceLiability);
+      },
+    );
   }
 }
