@@ -12,4 +12,5 @@ abstract class UserRegisRepo {
     int userId,
     List<UserRegisPermission> permissions,
   );
+  Future<Response<List<UserRegis>>> getUsers();
 }

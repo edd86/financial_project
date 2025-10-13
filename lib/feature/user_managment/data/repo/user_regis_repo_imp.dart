@@ -4,6 +4,7 @@ import 'package:financial_project/db/helper/db_helper.dart';
 import 'package:financial_project/feature/user_managment/data/mapper/user_regis_mapper.dart';
 import 'package:financial_project/feature/user_managment/data/mapper/user_regis_permission_mapper.dart';
 import 'package:financial_project/feature/user_managment/data/model/user_permission_regis_model.dart';
+import 'package:financial_project/feature/user_managment/data/model/user_regis_model.dart';
 import 'package:financial_project/feature/user_managment/data/model/user_regis_permission_model.dart';
 import 'package:financial_project/feature/user_managment/domain/model/user_regis.dart';
 import 'package:financial_project/feature/user_managment/domain/model/user_regis_permission.dart';
@@ -95,6 +96,29 @@ class UserRegisRepoImp implements UserRegisRepo {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  @override
+  Future<Response<List<UserRegis>>> getUsers() async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final res = await db.query('users');
+      if (res.isNotEmpty) {
+        final users = res
+            .map(
+              (user) => UserRegisMapper.toEntity(UserRegisModel.fromMap(user)),
+            )
+            .toList();
+        return Response.success(users, message: 'Usuarios Encontrados');
+      }
+      return Response.success(
+        List<UserRegis>.empty(),
+        message: 'No existen usuarios registrados',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
     }
   }
 }

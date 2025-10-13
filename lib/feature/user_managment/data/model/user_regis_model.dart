@@ -15,6 +15,17 @@ class UserRegisModel {
     required this.password,
   });
 
+  factory UserRegisModel.fromMap(Map<String, dynamic> map) {
+    return UserRegisModel(
+      id: map['id'],
+      name: map['name'],
+      userName: map['username'],
+      email: map['email'],
+      phone: map['phone'],
+      password: map['password'],
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
