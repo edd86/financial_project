@@ -1,13 +1,13 @@
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/db/helper/db_helper.dart';
-import 'package:financial_project/feature/user_registration/data/mapper/user_regis_mapper.dart';
-import 'package:financial_project/feature/user_registration/data/mapper/user_regis_permission_mapper.dart';
-import 'package:financial_project/feature/user_registration/data/model/user_permission_regis_model.dart';
-import 'package:financial_project/feature/user_registration/data/model/user_regis_permission_model.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis_permission.dart';
-import 'package:financial_project/feature/user_registration/domain/repo/user_regis_repo.dart';
+import 'package:financial_project/feature/user_managment/data/mapper/user_regis_mapper.dart';
+import 'package:financial_project/feature/user_managment/data/mapper/user_regis_permission_mapper.dart';
+import 'package:financial_project/feature/user_managment/data/model/user_permission_regis_model.dart';
+import 'package:financial_project/feature/user_managment/data/model/user_regis_permission_model.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis_permission.dart';
+import 'package:financial_project/feature/user_managment/domain/repo/user_regis_repo.dart';
 
 class UserRegisRepoImp implements UserRegisRepo {
   @override

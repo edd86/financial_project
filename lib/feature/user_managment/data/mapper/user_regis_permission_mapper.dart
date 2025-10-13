@@ -1,5 +1,5 @@
-import 'package:financial_project/feature/user_registration/data/model/user_regis_permission_model.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis_permission.dart';
+import 'package:financial_project/feature/user_managment/data/model/user_regis_permission_model.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis_permission.dart';
 
 class UserRegisPermissionMapper {
   static UserRegisPermission toEntity(UserRegisPermissionModel model) {

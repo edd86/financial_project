@@ -1,6 +1,6 @@
 import 'package:financial_project/core/response.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis_permission.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis_permission.dart';
 
 abstract class UserRegisRepo {
   Future<Response<UserRegis>> registerUser(

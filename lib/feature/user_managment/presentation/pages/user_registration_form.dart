@@ -1,9 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/core/utils.dart';
-import 'package:financial_project/feature/user_registration/data/repo/user_regis_repo_imp.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis.dart';
-import 'package:financial_project/feature/user_registration/domain/model/user_regis_permission.dart';
+import 'package:financial_project/feature/user_managment/data/repo/user_regis_repo_imp.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis.dart';
+import 'package:financial_project/feature/user_managment/domain/model/user_regis_permission.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 

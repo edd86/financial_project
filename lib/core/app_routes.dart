@@ -8,7 +8,7 @@ import 'package:financial_project/feature/client_managment/presentation/pages/cl
 import 'package:financial_project/feature/client_managment/presentation/pages/search_client_page.dart';
 import 'package:financial_project/feature/home/presentation/page/home_page.dart';
 import 'package:financial_project/feature/user_managment/presentation/pages/user_home_page.dart';
-import 'package:financial_project/feature/user_registration/presentation/pages/user_registration_form.dart';
+import 'package:financial_project/feature/user_managment/presentation/pages/user_registration_form.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
