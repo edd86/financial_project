@@ -45,10 +45,10 @@ class _BalanceAssetModalBottomState extends State<BalanceAssetModalBottom> {
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.85.w, vertical: 2.5.h),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Editar cuenta',
@@ -131,7 +131,6 @@ class _BalanceAssetModalBottomState extends State<BalanceAssetModalBottom> {
                     );
                     if (res.success) {
                       _showMessage(res);
-
                       _backPage();
                     } else {
                       _showMessage(res);
