@@ -2,6 +2,7 @@ import 'package:financial_project/core/app_routes.dart';
 import 'package:financial_project/db/helper/db_helper.dart';
 import 'package:financial_project/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_assets_provider.dart';
+import 'package:financial_project/feature/balance/presentation/provider/balance_liabilities_provider.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
 import 'package:financial_project/feature/balance/presentation/provider/clients_list_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_home_provider.dart';
@@ -37,6 +38,9 @@ void main() async {
         ),
         ChangeNotifierProvider<BalanceAssetsProvider>(
           create: (_) => BalanceAssetsProvider(),
+        ),
+        ChangeNotifierProvider<BalanceLiabilitiesProvider>(
+          create: (_) => BalanceLiabilitiesProvider(),
         ),
       ],
       child: const MainApp(),
