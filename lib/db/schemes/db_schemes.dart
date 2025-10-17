@@ -150,7 +150,7 @@ List<String> dbSchemes = [
   );''',
   '''INSERT INTO permissions (name) VALUES 
     ('admin'), ('consultar_clientes'),
-    ('gestionar_clientes'), 
+    ('gestionar_clientes'), ('user_management'),
     ('consultar_obligaciones'), ('gestionar_obligaciones'),
     ('consultar_balances'), ('gestionar_balances');
   ''',

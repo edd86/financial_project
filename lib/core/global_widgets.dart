@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:financial_project/core/drawer_nav.dart';
+import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/auth/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,16 +93,19 @@ class GlobalWidgets {
             color: Colors.deepPurple,
           ),
           child: TextButton.icon(
-            onPressed: () {},
             icon: Icon(Icons.logout, size: 18.77.sp, color: Colors.white),
             label: Text(
-              'Cerrar sesión',
+              'Cerrar sesión y salir',
               style: TextStyle(
                 fontSize: 15.85.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
+            onPressed: () {
+              userLogedPermissions.clear();
+              exit(0);
+            },
           ),
         ),
       ],

@@ -31,6 +31,14 @@ class Utils {
         permissionNames.contains('consultar_clientes');
   }
 
+  static bool hasUserManagePermission() {
+    final permissionNames = userLogedPermissions
+        .map((permission) => permission.name)
+        .toList();
+    return (permissionNames.contains('admin') ||
+        permissionNames.contains('user_management'));
+  }
+
   static bool hasObligationsPermissions() {
     final permissionNames = userLogedPermissions
         .map((permission) => permission.name)
