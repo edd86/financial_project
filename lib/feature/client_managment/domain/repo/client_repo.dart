@@ -1,5 +1,6 @@
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client.dart';
+import 'package:financial_project/feature/client_managment/domain/model/client_general_regime.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_monthly_record.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_obligation.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_simplified_regime.dart';
@@ -26,4 +27,5 @@ abstract class ClientRepo {
     ClientObligation clientObligation,
   );
   Future<Response<bool>> exitsRecord(String month, int year);
+  Future<Response<ClientGeneralRegime>> getClientGeneralRegime(int regimeId);
 }

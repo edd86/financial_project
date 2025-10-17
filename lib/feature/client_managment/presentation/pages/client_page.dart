@@ -7,7 +7,8 @@ import 'package:financial_project/feature/client_managment/domain/model/client.d
 import 'package:financial_project/feature/client_managment/domain/model/client_obligation.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_obligations_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/widgets/client_detail.dart';
-import 'package:financial_project/feature/client_managment/presentation/widgets/client_obligation_tile.dart';
+import 'package:financial_project/feature/client_managment/presentation/widgets/client_general_obligation_tile.dart';
+import 'package:financial_project/feature/client_managment/presentation/widgets/client_simple_obligation_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -27,8 +28,8 @@ class _ClientPageState extends State<ClientPage> {
     // Cargar las obligaciones al inicializar el widget
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ClientsObligationsProvider>(
-        context, 
-        listen: false
+        context,
+        listen: false,
       ).setClientObligations(widget.client.id!);
     });
   }
@@ -99,70 +100,58 @@ class _ClientPageState extends State<ClientPage> {
                 ),
               ),
             ),
-            ElevatedButton.icon(
-              label: Text('Asignar Obligación'),
-              icon: Icon(Icons.assignment),
-              onPressed: () async {
-                if (Utils.hasObligationsPermissions()) {
-                  if (widget.client.regimeType == 'simplificado') {
-                    final response = await ClientRepoImpl()
-                        .assignClientSimpleObligation(widget.client);
-                    if (response.success) {
-                      _showMessage(response);
-                      setState(() {});
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                label: Text('Asignar Obligación'),
+                icon: Icon(Icons.assignment),
+                onPressed: () async {
+                  if (Utils.hasObligationsPermissions()) {
+                    if (widget.client.regimeType == 'simplificado') {
+                      final response = await ClientRepoImpl()
+                          .assignClientSimpleObligation(widget.client);
+                      if (response.success) {
+                        _showMessage(response);
+                        Provider.of<ClientsObligationsProvider>(
+                          context,
+                          listen: false,
+                        ).setClientObligations(widget.client.id!);
+                      } else {
+                        _showMessage(response);
+                      }
                     } else {
-                      _showMessage(response);
+                      _generalFormPage(widget.client);
                     }
                   } else {
-                    _generalFormPage(widget.client);
+                    _showMessage(
+                      Response(
+                        success: false,
+                        message:
+                            'No tiene permiso para ejecutar esta funcionalidad.',
+                      ),
+                    );
                   }
-                } else {
-                  _showMessage(
-                    Response(
-                      success: false,
-                      message:
-                          'No tiene permiso para ejecutar esta funcionalidad.',
-                    ),
-                  );
-                }
-              },
+                },
+              ),
             ),
             Expanded(
               child: Consumer<ClientsObligationsProvider>(
                 builder: (context, provider, child) {
                   // Verificar si está cargando
                   if (provider.clientObligations == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   }
-                  
-                  // Verificar si hay error
-                  if (!provider.clientObligations!.success && provider.clientObligations!.data == null) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.info_outline, size: 48, color: Colors.amber),
-                          const SizedBox(height: 16),
-                          Text(
-                            provider.clientObligations!.message,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  
-                  // Mostrar la lista de obligaciones
                   final obligations = provider.clientObligations?.data ?? [];
                   if (obligations.isEmpty) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.assignment_outlined, size: 48, color: Colors.grey),
+                          const Icon(
+                            Icons.assignment_outlined,
+                            size: 48,
+                            color: Colors.grey,
+                          ),
                           const SizedBox(height: 16),
                           const Text(
                             'No se asignaron obligaciones a la empresa',
@@ -175,8 +164,8 @@ class _ClientPageState extends State<ClientPage> {
                             label: const Text('Actualizar'),
                             onPressed: () {
                               Provider.of<ClientsObligationsProvider>(
-                                context, 
-                                listen: false
+                                context,
+                                listen: false,
                               ).setClientObligations(widget.client.id!);
                             },
                           ),
@@ -184,16 +173,27 @@ class _ClientPageState extends State<ClientPage> {
                       ),
                     );
                   } else {
-                    return ListView.builder(
-                      itemCount: obligations.length,
-                      itemBuilder: (context, index) {
-                        return ClientObligationTile(
-                          capital: widget.client.capital,
-                          obligation: obligations[index],
-                        );
-                      },
-                    );
+                    return widget.client.regimeType == 'simplificado'
+                        ? ListView.builder(
+                            itemCount: obligations.length,
+                            itemBuilder: (context, index) {
+                              return ClientSimpleObligationTile(
+                                capital: widget.client.capital,
+                                obligation: obligations[index],
+                              );
+                            },
+                          )
+                        : ListView.builder(
+                            itemCount: obligations.length,
+                            itemBuilder: (context, index) {
+                              return ClientGeneralObligationTile(
+                                capital: widget.client.capital,
+                                obligation: obligations[index],
+                              );
+                            },
+                          );
                   }
+                  //}
                 },
               ),
             ),

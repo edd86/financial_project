@@ -206,40 +206,42 @@ class _ClientFormState extends State<ClientForm> {
                       (value == null || value.isEmpty)) {
                     return 'Por favor ingrese el precio promedio de productos';
                   }
-                  if (regimenSelected == 'simplificado' &&
-                      double.tryParse(value!) == null) {
+                  if (double.tryParse(value!) == null) {
                     return 'Por favor ingrese un precio válido';
                   }
                   return null;
                 },
               ),
               _spacer,
-              ElevatedButton.icon(
-                label: Text('Registrar Cliente'),
-                icon: Icon(Icons.save),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    final client = Client(
-                      businessName: _reasonNameController.text,
-                      taxId: _nitCiController.text,
-                      capital: double.parse(_capitalController.text),
-                      activity: activitySelected?.toLowerCase(),
-                      regimeType: regimenSelected!.toLowerCase(),
-                      description: _descriptionController.text,
-                      baseProductPrice: _isProductPriceEnabled()
-                          ? double.parse(_productPriceController.text)
-                          : null,
-                    );
-                    final response = await ClientRepoImpl().addClient(client);
-                    if (response.success) {
-                      clientsHomeProvider.setClientsHome();
-                      _showMessage(response.message, response.success);
-                      _backPage();
-                    } else {
-                      _showMessage(response.message, response.success);
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  label: Text('Registrar Cliente'),
+                  icon: Icon(Icons.save),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final client = Client(
+                        businessName: _reasonNameController.text,
+                        taxId: _nitCiController.text,
+                        capital: double.parse(_capitalController.text),
+                        activity: activitySelected?.toLowerCase(),
+                        regimeType: regimenSelected!.toLowerCase(),
+                        description: _descriptionController.text,
+                        baseProductPrice: _isProductPriceEnabled()
+                            ? double.parse(_productPriceController.text)
+                            : null,
+                      );
+                      final response = await ClientRepoImpl().addClient(client);
+                      if (response.success) {
+                        clientsHomeProvider.setClientsHome();
+                        _showMessage(response.message, response.success);
+                        _backPage();
+                      } else {
+                        _showMessage(response.message, response.success);
+                      }
                     }
-                  }
-                },
+                  },
+                ),
               ),
             ],
           ),

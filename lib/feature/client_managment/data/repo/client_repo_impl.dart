@@ -1,6 +1,7 @@
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/db/helper/db_helper.dart';
+import 'package:financial_project/feature/client_managment/data/mapper/client_general_regime_mapper.dart';
 import 'package:financial_project/feature/client_managment/data/mapper/client_mapper.dart';
 import 'package:financial_project/feature/client_managment/data/mapper/client_monthly_record_mapper.dart';
 import 'package:financial_project/feature/client_managment/data/mapper/client_obligation_mapper.dart';
@@ -10,6 +11,7 @@ import 'package:financial_project/feature/client_managment/data/model/client_mod
 import 'package:financial_project/feature/client_managment/data/model/client_obligation_model.dart';
 import 'package:financial_project/feature/client_managment/data/model/client_simplified_regime_model.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client.dart';
+import 'package:financial_project/feature/client_managment/domain/model/client_general_regime.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_monthly_record.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_obligation.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_simplified_regime.dart';
@@ -257,7 +259,7 @@ class ClientRepoImpl implements ClientRepo {
       return Response.error('No existen regimenes registrados.');
     }
     final regimesModel = resRegimes
-        .map((regimeRes) => ClientGeneralRegime.fromMap(regimeRes))
+        .map((regimeRes) => ClientGeneralRegimeModel.fromMap(regimeRes))
         .toList();
     for (var regime in regimesModel) {
       switch (regime.name) {
@@ -466,6 +468,30 @@ class ClientRepoImpl implements ClientRepo {
         return Response.success(false);
       }
       return Response.success(true);
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<ClientGeneralRegime>> getClientGeneralRegime(
+    int regimeId,
+  ) async {
+    final db = await DatabaseHelper().database;
+    try {
+      final res = await db.query(
+        'general_regime',
+        where: 'id = ?',
+        whereArgs: [regimeId],
+      );
+      if (res.isEmpty) {
+        return Response.error('Regimen no encontrado');
+      }
+      return Response.success(
+        ClientGeneralRegimeMapper.toEntity(
+          ClientGeneralRegimeModel.fromMap(res.first),
+        ),
+      );
     } catch (e) {
       return Response.error(e.toString());
     }

@@ -1,13 +1,13 @@
 import 'package:financial_project/core/utils.dart';
 
-class ClientGeneralRegime {
+class ClientGeneralRegimeModel {
   final int? id;
   final String name;
   final String periodicity;
   final double percentage;
   final List<DateTime> duePatterns;
 
-  ClientGeneralRegime({
+  ClientGeneralRegimeModel({
     this.id,
     required this.name,
     required this.periodicity,
@@ -15,7 +15,7 @@ class ClientGeneralRegime {
     required this.duePatterns,
   });
 
-  factory ClientGeneralRegime.fromMap(Map<String, dynamic> map) {
+  factory ClientGeneralRegimeModel.fromMap(Map<String, dynamic> map) {
     final dueDateTemp = map['due_pattern'].toString().split(',');
 
     if (map['periodicity'] == 'mensual') {
@@ -23,7 +23,7 @@ class ClientGeneralRegime {
         int.parse(dueDateTemp[0]),
         int.parse(dueDateTemp[1]),
       );
-      return ClientGeneralRegime(
+      return ClientGeneralRegimeModel(
         id: map['id'],
         name: map['name'],
         periodicity: map['periodicity'],
@@ -35,7 +35,7 @@ class ClientGeneralRegime {
       for (var date in dueDateTemp) {
         duePatternList.add(Utils.transformDueDate(date));
       }
-      return ClientGeneralRegime(
+      return ClientGeneralRegimeModel(
         id: map['id'],
         name: map['name'],
         periodicity: map['periodicity'],

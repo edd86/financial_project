@@ -79,7 +79,6 @@ class _ClientGeneralFormState extends State<ClientGeneralForm> {
                   clientRecord,
                 );
                 if (res.success) {
-                  _showMessage(res);
                   final resObligation = await ClientRepoImpl()
                       .assignClientGeneralObligation(res.data!);
                   if (resObligation.success) {
@@ -89,9 +88,8 @@ class _ClientGeneralFormState extends State<ClientGeneralForm> {
                   } else {
                     _showMessage(resObligation);
                   }
-                } else {
-                  _showMessage(res);
                 }
+                _showMessage(res);
                 break;
             }
           }

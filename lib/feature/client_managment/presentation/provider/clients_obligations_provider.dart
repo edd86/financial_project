@@ -8,7 +8,7 @@ class ClientsObligationsProvider extends ChangeNotifier {
 
   Response<List<ClientObligation>>? get clientObligations => _clientObligations;
 
-  Future<void> setClientObligations(int clientId) async {
+  void setClientObligations(int clientId) async {
     // Indicar que estamos cargando
     _clientObligations = null;
     notifyListeners();

@@ -8,20 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class ClientObligationTile extends StatefulWidget {
+class ClientSimpleObligationTile extends StatefulWidget {
   final double capital;
   final ClientObligation obligation;
-  const ClientObligationTile({
+  const ClientSimpleObligationTile({
     super.key,
     required this.capital,
     required this.obligation,
   });
 
   @override
-  State<ClientObligationTile> createState() => _ClientObligationTileState();
+  State<ClientSimpleObligationTile> createState() =>
+      _ClientSimpleObligationTileState();
 }
 
-class _ClientObligationTileState extends State<ClientObligationTile> {
+class _ClientSimpleObligationTileState
+    extends State<ClientSimpleObligationTile> {
   ClientSimplifiedRegime? simplifiedRegime;
 
   @override
@@ -32,14 +34,10 @@ class _ClientObligationTileState extends State<ClientObligationTile> {
 
   @override
   Widget build(BuildContext context) {
-    final clientObligationProvider = Provider.of<ClientsObligationsProvider>(
-      context,
-      listen: false,
-    );
     if (simplifiedRegime != null) {
       return Card(
         child: SizedBox(
-          width: 80.h,
+          width: 80.w,
           height: 15.75.h,
           child: simplifiedRegime == null
               ? const Center(child: CircularProgressIndicator())
@@ -128,9 +126,7 @@ class _ClientObligationTileState extends State<ClientObligationTile> {
                                 final res = await ClientRepoImpl()
                                     .updatePayedObligation(widget.obligation);
                                 if (res.success) {
-                                  clientObligationProvider.setClientObligations(
-                                    widget.obligation.clientId,
-                                  );
+                                  _updateObligations();
                                 }
                               } else {
                                 _showMessage();
@@ -193,5 +189,12 @@ class _ClientObligationTileState extends State<ClientObligationTile> {
     ScaffoldMessenger.of(context).showSnackBar(
       GlobalWidgets.customSnackBar('Obligación ya cancelada', Colors.redAccent),
     );
+  }
+
+  void _updateObligations() {
+    Provider.of<ClientsObligationsProvider>(
+      context,
+      listen: false,
+    ).setClientObligations(widget.obligation.clientId);
   }
 }
