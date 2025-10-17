@@ -72,31 +72,34 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             _spacer,
-            ElevatedButton.icon(
-              icon: Icon(Icons.login),
-              label: Text('Iniciar Sesión'),
-              onPressed: () async {
-                if (_usernameController.text.isNotEmpty &&
-                    _passwordController.text.isNotEmpty) {
-                  final credentials = UserAuth(
-                    username: _usernameController.text.trim(),
-                    password: _passwordController.text.trim(),
-                  );
-                  final res = await AuthRepoImp().login(credentials);
-                  if (res.success) {
-                    _showMessage(
-                      'Bienvenido ${res.data?.username}',
-                      res.success,
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                icon: Icon(Icons.login),
+                label: Text('Iniciar Sesión'),
+                onPressed: () async {
+                  if (_usernameController.text.isNotEmpty &&
+                      _passwordController.text.isNotEmpty) {
+                    final credentials = UserAuth(
+                      username: _usernameController.text.trim(),
+                      password: _passwordController.text.trim(),
                     );
-                    provider.setUsername(res.data?.username ?? '');
-                    _nextPage();
+                    final res = await AuthRepoImp().login(credentials);
+                    if (res.success) {
+                      _showMessage(
+                        'Bienvenido ${res.data?.username}',
+                        res.success,
+                      );
+                      provider.setUsername(res.data?.username ?? '');
+                      _nextPage();
+                    } else {
+                      _showMessage(res.message, res.success);
+                    }
                   } else {
-                    _showMessage(res.message, res.success);
+                    _showMessage('Ingrese sus credenciales', false);
                   }
-                } else {
-                  _showMessage('Ingrese sus credenciales', false);
-                }
-              },
+                },
+              ),
             ),
             _spacer,
             TextButton(
