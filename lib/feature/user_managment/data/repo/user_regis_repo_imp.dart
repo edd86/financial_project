@@ -21,7 +21,13 @@ class UserRegisRepoImp implements UserRegisRepo {
     try {
       final resUser = await db.insert(
         'users',
-        newUser.copyWith(password: Utils.hashPassword(user.password)).toMap(),
+        newUser
+            .copyWith(
+              password: Utils.hashPassword(user.password),
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            )
+            .toMap(),
       );
       if (resUser > 0) {
         final resPermission = await registerPermissionsUser(
@@ -117,6 +123,50 @@ class UserRegisRepoImp implements UserRegisRepo {
         List<UserRegis>.empty(),
         message: 'No existen usuarios registrados',
       );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<UserRegis>> updateUser(UserRegis user) async {
+    final db = await DatabaseHelper().database;
+    final userModel = UserRegisMapper.toModel(user);
+
+    try {
+      final res = await db.update(
+        'users',
+        userModel
+            .copyWith(
+              password: Utils.hashPassword(user.password),
+              updatedAt: DateTime.now(),
+            )
+            .toMap(),
+        where: 'id = ?',
+        whereArgs: [userModel.id],
+      );
+      if (res > 0) {
+        return Response.success(user, message: 'Usuario actualizado con éxito');
+      }
+      return Response.error('Error al actualizar el usuario');
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<bool>> deleteUser(UserRegis user) async {
+    final db = await DatabaseHelper().database;
+    try {
+      final res = await db.delete(
+        'users',
+        where: 'id = ?',
+        whereArgs: [user.id],
+      );
+      if (res > 0) {
+        return Response.success(true, message: 'Usuario eliminado con éxito');
+      }
+      return Response.error('Error al eliminar el usuario');
     } catch (e) {
       return Response.error(e.toString());
     }

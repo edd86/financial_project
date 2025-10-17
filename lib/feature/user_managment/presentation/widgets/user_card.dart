@@ -11,7 +11,7 @@ class UserCard extends StatelessWidget {
     return Card(
       child: SizedBox(
         width: double.infinity,
-        height: 20.h,
+        height: 15.8.h,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -23,7 +23,7 @@ class UserCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 15.h,
+                  height: 11.75.h,
                   child: Center(
                     child: Image.asset(
                       'assets/img/profile.png',
@@ -33,7 +33,7 @@ class UserCard extends StatelessWidget {
                 ),
                 SizedBox(
                   width: 48.7.w,
-                  height: 15.24.h,
+                  height: 11.74.h,
                   child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,

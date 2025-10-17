@@ -13,8 +13,24 @@ class UserListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUsers() async {
-    _usersListResponse = await UserRegisRepoImp().getUsers();
+  void updateUsers(UserRegis user) async {
+    final response = await UserRegisRepoImp().updateUser(user);
+    if (response.success) {
+      _usersListResponse.data?.removeWhere(
+        (userFound) => userFound.id == user.id,
+      );
+      _usersListResponse.data?.add(user);
+    }
+    notifyListeners();
+  }
+
+  void deleteUser(UserRegis user) async {
+    final response = await UserRegisRepoImp().deleteUser(user);
+    if (response.success) {
+      _usersListResponse.data?.removeWhere(
+        (userFound) => userFound.id == user.id,
+      );
+    }
     notifyListeners();
   }
 }

@@ -13,4 +13,6 @@ abstract class UserRegisRepo {
     List<UserRegisPermission> permissions,
   );
   Future<Response<List<UserRegis>>> getUsers();
+  Future<Response<UserRegis>> updateUser(UserRegis user);
+  Future<Response<bool>> deleteUser(UserRegis user);
 }

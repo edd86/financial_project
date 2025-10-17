@@ -179,10 +179,15 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   return null;
                 },
               ),
+              _spacer,
+              Text(
+                'Seleccione los permisos que desea asignar al usuario',
+                style: TextStyle(fontSize: 13.sp),
+              ),
               (_permissions == null)
                   ? CircularProgressIndicator()
                   : SizedBox(
-                      height: 27.8.h,
+                      height: 23.8.h,
                       child: GridView.count(
                         crossAxisCount: 3,
                         shrinkWrap: true,
@@ -219,34 +224,36 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                             .toList(),
                       ),
                     ),
-              _spacer,
-              ElevatedButton.icon(
-                label: Text('Registrar usuario'),
-                icon: Icon(Icons.save),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate() &&
-                      _selectedPermissions.isNotEmpty) {
-                    final userRegis = UserRegis(
-                      name: _nameController.text,
-                      userName: _usernameController.text,
-                      email: _emailController.text,
-                      phone: _phoneController.text,
-                      password: _passwordController.text,
-                    );
-                    final response = await UserRegisRepoImp().registerUser(
-                      userRegis,
-                      _selectedPermissions,
-                    );
-                    if (response.success) {
-                      _showMessage(response.message, response.success);
-                      _backPage();
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  label: Text('Registrar usuario'),
+                  icon: Icon(Icons.save),
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate() &&
+                        _selectedPermissions.isNotEmpty) {
+                      final userRegis = UserRegis(
+                        name: _nameController.text,
+                        userName: _usernameController.text,
+                        email: _emailController.text,
+                        phone: _phoneController.text,
+                        password: _passwordController.text,
+                      );
+                      final response = await UserRegisRepoImp().registerUser(
+                        userRegis,
+                        _selectedPermissions,
+                      );
+                      if (response.success) {
+                        _showMessage(response.message, response.success);
+                        _backPage();
+                      } else {
+                        _showMessage(response.message, response.success);
+                      }
                     } else {
-                      _showMessage(response.message, response.success);
+                      _showMessage('Seleccione al menos un permiso', false);
                     }
-                  } else {
-                    _showMessage('Seleccione al menos un permiso', false);
-                  }
-                },
+                  },
+                ),
               ),
             ],
           ),

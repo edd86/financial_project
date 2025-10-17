@@ -5,6 +5,8 @@ class UserRegisModel {
   final String email;
   final String phone;
   final String password;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   UserRegisModel({
     this.id,
@@ -13,6 +15,8 @@ class UserRegisModel {
     required this.email,
     required this.phone,
     required this.password,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory UserRegisModel.fromMap(Map<String, dynamic> map) {
@@ -23,6 +27,8 @@ class UserRegisModel {
       email: map['email'],
       phone: map['phone'],
       password: map['password'],
+      createdAt: DateTime.parse(map['created_at']),
+      updatedAt: DateTime.parse(map['updated_at']),
     );
   }
 
@@ -33,6 +39,8 @@ class UserRegisModel {
       'email': email,
       'phone': phone,
       'password': password,
+      'created_at': createdAt!.toIso8601String(),
+      'updated_at': updatedAt!.toIso8601String(),
     };
   }
 
@@ -44,6 +52,8 @@ class UserRegisModel {
     String? email,
     String? phone,
     String? password,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return UserRegisModel(
       id: id ?? this.id,
@@ -52,6 +62,8 @@ class UserRegisModel {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       password: password ?? this.password,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }
