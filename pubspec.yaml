@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   crypto: ^3.0.6
-  email_validator: "^2.1.17"
+  email_validator: ^3.0.0
   flutter:
     sdk: flutter
   flutter_dotenv: ^6.0.0
@@ -20,7 +20,7 @@ dependencies:
   syncfusion_flutter_charts: ^31.1.23
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 
