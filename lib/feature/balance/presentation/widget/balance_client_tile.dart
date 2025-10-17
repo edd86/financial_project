@@ -1,7 +1,12 @@
+import 'package:financial_project/core/global_widgets.dart';
+import 'package:financial_project/core/response.dart';
+import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_client.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_sheet.dart';
+import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
 import 'package:financial_project/feature/balance/presentation/widget/alert_dialog_options.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class BalanceClientTile extends StatefulWidget {
@@ -113,7 +118,14 @@ class _BalanceClientTileState extends State<BalanceClientTile> {
                     child: IconButton(
                       icon: Icon(Icons.delete, size: 17.78.sp),
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () async {
+                        final res = await BalanceSheetRepoImpl()
+                            .deleteBalanceSheet(widget.balanceSheet);
+                        if (res.success) {
+                          _updateProvider();
+                        }
+                        _showMessage(res);
+                      },
                     ),
                   ),
                 ],
@@ -123,5 +135,21 @@ class _BalanceClientTileState extends State<BalanceClientTile> {
         ),
       ),
     );
+  }
+
+  void _showMessage(Response res) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      GlobalWidgets.customSnackBar(
+        res.message,
+        res.success ? Colors.deepPurple : Colors.redAccent,
+      ),
+    );
+  }
+
+  void _updateProvider() {
+    Provider.of<BalanceSheetListProvider>(
+      context,
+      listen: false,
+    ).getBalanceSheets();
   }
 }

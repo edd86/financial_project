@@ -215,7 +215,7 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
         where: 'balance_sheet_id = ?',
         whereArgs: [balanceId],
       );
-      if (assetsRes.isEmpty && liabilitiesRes.isEmpty && equityRes.isEmpty) {
+      if (assetsRes.isEmpty || liabilitiesRes.isEmpty || equityRes.isEmpty) {
         return Response.error('No existen cuentas registradas');
       }
       final assetsModel = assetsRes
@@ -245,6 +245,31 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
           totalLiabilities: totalLiabilities,
           totalEquity: totalequities,
         ),
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<BalanceSheet>> deleteBalanceSheet(
+    BalanceSheet balance,
+  ) async {
+    final db = await DatabaseHelper().database;
+    final balanceModel = BalanceSheetMapper.toModel(balance);
+
+    try {
+      final res = await db.delete(
+        'balance_sheets',
+        where: 'id = ?',
+        whereArgs: [balanceModel.id],
+      );
+      if (res <= 0) {
+        return Response.error('No se pudo eliminar el balance');
+      }
+      return Response.success(
+        BalanceSheetMapper.toEntity(balanceModel),
+        message: 'Balance eliminado',
       );
     } catch (e) {
       return Response.error(e.toString());

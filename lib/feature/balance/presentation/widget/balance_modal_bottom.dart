@@ -1,3 +1,4 @@
+import 'package:financial_project/core/app_routes.dart';
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/core/utils.dart';
@@ -118,14 +119,10 @@ class _BalanceModalBottomState extends State<BalanceModalBottom> {
                       balanceTemp,
                     );
                     if (res.success) {
-                      _showMessage(res);
-                      // Actualizamos el provider con el nuevo balance
                       balanceListProvider.getBalanceSheets();
-                      // Cerramos el modal
                       _backPage();
-                    } else {
-                      _showMessage(res);
                     }
+                    _showMessage(res);
                   }
                 },
                 child: Text('Guardar Balance'),
@@ -148,6 +145,10 @@ class _BalanceModalBottomState extends State<BalanceModalBottom> {
   }
 
   void _backPage() {
-    Navigator.pop(context);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.balanceHome,
+      (route) => false,
+    );
   }
 }

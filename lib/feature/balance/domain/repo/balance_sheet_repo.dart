@@ -13,4 +13,5 @@ abstract class BalanceSheetRepo {
     String clientName,
   );
   Future<Response<BalanceResumeEntity>> getBalanceResume(int balanceId);
+  Future<Response<BalanceSheet>> deleteBalanceSheet(BalanceSheet balance);
 }

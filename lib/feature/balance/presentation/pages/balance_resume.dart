@@ -33,6 +33,9 @@ class BalanceResume extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
+          if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
           if (snapshot.hasData) {
             final balanceResume = snapshot.data!.data;
             return SingleChildScrollView(

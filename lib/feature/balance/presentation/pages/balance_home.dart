@@ -27,6 +27,11 @@ class _BalanceHomeState extends State<BalanceHome> {
           label: 'Balances',
           labelStyle: TextStyle(fontSize: 19.sp),
           searchStyle: TextStyle(fontSize: 17.85.sp, color: Colors.white),
+          searchDecoration: InputDecoration(
+            fillColor: Colors.white,
+            hintText: 'Buscar por nombre',
+            hintStyle: TextStyle(fontSize: 17.85.sp, color: Colors.white),
+          ),
           onChanged: (value) {
             provider.findBalanceSheetByClient(value);
           },
