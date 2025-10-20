@@ -35,7 +35,7 @@ class _UserUpdateBottomSheetState extends State<UserUpdateBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60.h,
+      height: 65.h,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 1.82.h),
         child: Form(
