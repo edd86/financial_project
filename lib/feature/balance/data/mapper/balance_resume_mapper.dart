@@ -7,6 +7,7 @@ class BalanceResumeMapper {
       totalAssets: model.totalAssets,
       totalLiabilities: model.totalLiabilities,
       totalEquity: model.totalEquity,
+      inventory: model.inventory,
     );
   }
 }

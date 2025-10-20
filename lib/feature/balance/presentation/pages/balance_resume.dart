@@ -1,7 +1,12 @@
+import 'package:financial_project/core/fianancial_ratios.dart';
 import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_assets_page.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_liabilities_page.dart';
+import 'package:financial_project/feature/balance/presentation/provider/roa_provider.dart';
+import 'package:financial_project/feature/balance/presentation/provider/roe_provider.dart';
+import 'package:financial_project/feature/balance/presentation/widget/roe_roa_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -38,6 +43,9 @@ class BalanceResume extends StatelessWidget {
           }
           if (snapshot.hasData) {
             final balanceResume = snapshot.data!.data;
+            if (balanceResume == null) {
+              return Center(child: Text(snapshot.data!.message));
+            }
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -88,7 +96,7 @@ class BalanceResume extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              '${balanceResume!.totalAssets} bs.',
+                              '${balanceResume.totalAssets} bs.',
                               style: TextStyle(
                                 fontSize: 20.78.sp,
                                 fontWeight: FontWeight.bold,
@@ -242,7 +250,7 @@ class BalanceResume extends StatelessWidget {
                   spacer,
                   Card(
                     child: SizedBox(
-                      height: 25.75.h,
+                      height: 38.75.h,
                       width: 100.w,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.2.w),
@@ -258,9 +266,10 @@ class BalanceResume extends StatelessWidget {
                             Text(
                               balanceResume.totalLiabilities == 0
                                   ? 'N/A'
-                                  : (balanceResume.totalAssets /
-                                            balanceResume.totalLiabilities)
-                                        .toStringAsFixed(2),
+                                  : FianancialRatios.liquidityRatio(
+                                      balanceResume.totalAssets,
+                                      balanceResume.totalLiabilities,
+                                    ).toStringAsFixed(2),
                               style: TextStyle(
                                 fontSize: 20.78.sp,
                                 fontWeight: FontWeight.bold,
@@ -273,13 +282,102 @@ class BalanceResume extends StatelessWidget {
                             Text(
                               balanceResume.totalAssets == 0
                                   ? 'N/A'
-                                  : (balanceResume.totalLiabilities /
-                                            balanceResume.totalAssets)
-                                        .toStringAsFixed(2),
+                                  : FianancialRatios.debtRatio(
+                                      balanceResume.totalLiabilities,
+                                      balanceResume.totalEquity,
+                                    ).toStringAsFixed(2),
                               style: TextStyle(
                                 fontSize: 20.78.sp,
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
+                            Text(
+                              'Quick Ratio',
+                              style: TextStyle(fontSize: 16.85.sp),
+                            ),
+                            Text(
+                              balanceResume.inventory == 0
+                                  ? 'N/A'
+                                  : FianancialRatios.quickRatio(
+                                      balanceResume.totalAssets,
+                                      balanceResume.inventory,
+                                      balanceResume.totalLiabilities,
+                                    ).toStringAsFixed(2),
+                              style: TextStyle(
+                                fontSize: 20.78.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => RoeRoaDialog(
+                                              totalEquity:
+                                                  balanceResume.totalEquity,
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          'ROE',
+                                          style: TextStyle(fontSize: 16.85.sp),
+                                        ),
+                                      ),
+                                      Consumer<RoeProvider>(
+                                        builder: (context, provider, child) {
+                                          return Text(
+                                            provider.roe.toStringAsFixed(2),
+                                            style: TextStyle(
+                                              fontSize: 20.78.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => RoeRoaDialog(
+                                              totalAssets:
+                                                  balanceResume.totalAssets,
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          'ROA',
+                                          style: TextStyle(fontSize: 16.85.sp),
+                                        ),
+                                      ),
+                                      Consumer<RoaProvider>(
+                                        builder: (context, provider, child) {
+                                          return Text(
+                                            provider.roa.toStringAsFixed(2),
+                                            style: TextStyle(
+                                              fontSize: 20.78.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

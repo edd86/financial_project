@@ -215,6 +215,11 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
         where: 'balance_sheet_id = ?',
         whereArgs: [balanceId],
       );
+      final inventory = await db.query(
+        'assets',
+        where: 'balance_sheet_id = ? AND name LIKE ?',
+        whereArgs: [balanceId, '%inventario%'],
+      );
       if (assetsRes.isEmpty || liabilitiesRes.isEmpty || equityRes.isEmpty) {
         return Response.error('No existen cuentas registradas');
       }
@@ -227,6 +232,7 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
       final equitiesModel = equityRes
           .map((equity) => BalanceEquityModel.fromMap(equity))
           .toList();
+      final inventoryAsset = BalanceAssetModel.fromMap(inventory.first);
       final totalAssets = assetsModel.fold(
         0.0,
         (sum, element) => sum + element.amount,
@@ -244,6 +250,7 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
           totalAssets: totalAssets,
           totalLiabilities: totalLiabilities,
           totalEquity: totalequities,
+          inventory: inventoryAsset.amount,
         ),
       );
     } catch (e) {
