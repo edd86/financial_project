@@ -5,6 +5,8 @@ import 'package:financial_project/feature/balance/presentation/provider/balance_
 import 'package:financial_project/feature/balance/presentation/provider/balance_liabilities_provider.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
 import 'package:financial_project/feature/balance/presentation/provider/clients_list_provider.dart';
+import 'package:financial_project/feature/balance/presentation/provider/roa_provider.dart';
+import 'package:financial_project/feature/balance/presentation/provider/roe_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_home_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_obligations_provider.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/search_client_provider.dart';
@@ -46,6 +48,8 @@ void main() async {
         ChangeNotifierProvider<UserListProvider>(
           create: (_) => UserListProvider(),
         ),
+        ChangeNotifierProvider<RoeProvider>(create: (_) => RoeProvider()),
+        ChangeNotifierProvider<RoaProvider>(create: (_) => RoaProvider()),
       ],
       child: const MainApp(),
     ),
