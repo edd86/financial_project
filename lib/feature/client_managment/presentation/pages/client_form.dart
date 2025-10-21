@@ -204,10 +204,10 @@ class _ClientFormState extends State<ClientForm> {
                 validator: (value) {
                   if (regimenSelected == 'simplificado' &&
                       (value == null || value.isEmpty)) {
+                    if (double.tryParse(value!) == null) {
+                      return 'Por favor ingrese un precio válido';
+                    }
                     return 'Por favor ingrese el precio promedio de productos';
-                  }
-                  if (double.tryParse(value!) == null) {
-                    return 'Por favor ingrese un precio válido';
                   }
                   return null;
                 },

@@ -82,12 +82,10 @@ class _ClientGeneralFormState extends State<ClientGeneralForm> {
                   final resObligation = await ClientRepoImpl()
                       .assignClientGeneralObligation(res.data!);
                   if (resObligation.success) {
-                    _showMessage(resObligation);
                     provider.setClientObligations(widget.client.id!);
                     _backPage();
-                  } else {
-                    _showMessage(resObligation);
                   }
+                  _showMessage(resObligation);
                 }
                 _showMessage(res);
                 break;
