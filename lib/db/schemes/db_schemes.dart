@@ -148,11 +148,30 @@ List<String> dbSchemes = [
     updated_at TEXT NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (balance_sheet_id) REFERENCES balance_sheets(id) ON DELETE CASCADE
   );''',
+  '''CREATE TABLE income_statements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_id INTEGER NOT NULL,
+    period_start_date TEXT NOT NULL,
+    period_end_date TEXT NOT NULL,
+    net_sales REAL NOT NULL DEFAULT 0.0,
+    cost_of_sales REAL NOT NULL DEFAULT 0.0,
+    sales_expenses REAL NOT NULL DEFAULT 0.0,
+    admin_expenses REAL NOT NULL DEFAULT 0.0,
+    depreciation REAL NOT NULL DEFAULT 0.0,
+    other_income REAL NOT NULL DEFAULT 0.0,
+    financial_expenses REAL NOT NULL DEFAULT 0.0,
+    taxes REAL NOT NULL DEFAULT 0.0,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    FOREIGN KEY(client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    CONSTRAINT uq_client_period UNIQUE (client_id, period_start_date, period_end_date)
+  );''',
   '''INSERT INTO permissions (name) VALUES 
     ('admin'), ('consultar_clientes'),
     ('gestionar_clientes'), ('user_management'),
     ('consultar_obligaciones'), ('gestionar_obligaciones'),
-    ('consultar_balances'), ('gestionar_balances');
+    ('consultar_balances'), ('gestionar_balances')
+    ('gestionar_estados');
   ''',
   '''INSERT INTO simplified_regime (category_number, min_capital, max_capital, taxable_amount, due_pattern) VALUES 
     ('Categoria 1', 12001, 15000, 47, '3-10,5-10,7-10,9-10,11-10,1-10'),
