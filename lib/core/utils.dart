@@ -48,6 +48,14 @@ class Utils {
         permissionNames.contains('gestionar_obligaciones'));
   }
 
+  static bool hasIncomeStatementPermissions() {
+    final permissionNames = userLogedPermissions
+        .map((permission) => permission.name)
+        .toList();
+    return (permissionNames.contains('admin') ||
+        permissionNames.contains('gestionar_estados'));
+  }
+
   static DateTime transformDueDate(String dateString) {
     final dateParts = dateString.split('-');
     final year = DateTime.now().year;
