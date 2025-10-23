@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:financial_project/feature/auth/data/model/user_permission_auth_model.dart';
+import 'package:financial_project/feature/income_statement/domain/model/income_statement.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 List<UserPermissionAuthModel> userLogedPermissions = [];
@@ -145,5 +146,26 @@ class Utils {
 
   static String localDateString(DateTime date) {
     return '${date.day}-${date.month}-${date.year}';
+  }
+
+  static double utilityBrute(IncomeStatement incomeStatement) {
+    return incomeStatement.netSales - incomeStatement.costOfSales;
+  }
+
+  static double utilityOp(IncomeStatement incomeStatement) {
+    return utilityBrute(incomeStatement) -
+        incomeStatement.salesExpenses -
+        incomeStatement.adminExpenses -
+        incomeStatement.depreciation;
+  }
+
+  static double utilityBefTax(IncomeStatement incomeStatement) {
+    return utilityOp(incomeStatement) +
+        incomeStatement.otherIncome -
+        incomeStatement.financialExpenses;
+  }
+
+  static double utilityNet(IncomeStatement incomeStatement) {
+    return utilityBefTax(incomeStatement) - incomeStatement.taxes;
   }
 }
