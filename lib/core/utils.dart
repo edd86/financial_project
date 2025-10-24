@@ -49,6 +49,9 @@ class Utils {
         permissionNames.contains('gestionar_obligaciones'));
   }
 
+  //TODO: Balance permissions!
+  //TODO: Añadir cargo
+
   static bool hasIncomeStatementPermissions() {
     final permissionNames = userLogedPermissions
         .map((permission) => permission.name)
