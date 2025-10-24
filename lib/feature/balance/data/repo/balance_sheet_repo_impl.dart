@@ -232,6 +232,11 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
       final equitiesModel = equityRes
           .map((equity) => BalanceEquityModel.fromMap(equity))
           .toList();
+      if (inventory.isEmpty) {
+        return Response.error(
+          'No existe una cuenta de Inventario en los activos',
+        );
+      }
       final inventoryAsset = BalanceAssetModel.fromMap(inventory.first);
       final totalAssets = assetsModel.fold(
         0.0,
