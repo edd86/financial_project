@@ -70,6 +70,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, ingrese su nombre completo';
                   }
+                  //TODO: Validar nombre sin numeros
                   return null;
                 },
               ),
@@ -126,6 +127,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, ingrese su número de teléfono';
                   }
+                  //TODO: Validar número 8 digitos
                   return null;
                 },
               ),
