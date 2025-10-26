@@ -1,7 +1,16 @@
+import 'package:financial_project/core/fianancial_ratios.dart';
 import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/income_statement/domain/model/income_statement_client.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+class _ChartData {
+  final String category;
+  final double value;
+
+  _ChartData(this.category, this.value);
+}
 
 class IncomStatementClientPage extends StatefulWidget {
   final IncomeStatementClient incomeStatementClient;
@@ -190,10 +199,76 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
               ),
             ),
             SizedBox(height: .150.h),
+            Card(
+              child: SizedBox(
+                height: 25.h,
+                width: 100.w,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.symmetric(
+                    vertical: 1.5.h,
+                    horizontal: 5.w,
+                  ),
+                  child: SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    primaryYAxis: NumericAxis(
+                      interval:
+                          Utils.intervalIncomeGraph(
+                                widget.incomeStatementClient.incomeStatement,
+                              ) >
+                              Utils.intervalExpenseGraph(
+                                widget.incomeStatementClient.incomeStatement,
+                              )
+                          ? Utils.intervalIncomeGraph(
+                                  widget.incomeStatementClient.incomeStatement,
+                                ) /
+                                10
+                          : Utils.intervalExpenseGraph(
+                                  widget.incomeStatementClient.incomeStatement,
+                                ) /
+                                10,
+                      maximum:
+                          Utils.intervalIncomeGraph(
+                                widget.incomeStatementClient.incomeStatement,
+                              ) >
+                              Utils.intervalExpenseGraph(
+                                widget.incomeStatementClient.incomeStatement,
+                              )
+                          ? Utils.intervalIncomeGraph(
+                              widget.incomeStatementClient.incomeStatement,
+                            )
+                          : Utils.intervalExpenseGraph(
+                              widget.incomeStatementClient.incomeStatement,
+                            ),
+                    ),
+                    series: <CartesianSeries>[
+                      ColumnSeries<_ChartData, String>(
+                        dataSource: [
+                          _ChartData(
+                            'Ingresos',
+                            Utils.intervalIncomeGraph(
+                              widget.incomeStatementClient.incomeStatement,
+                            ),
+                          ),
+                          _ChartData(
+                            'Gastos',
+                            Utils.intervalExpenseGraph(
+                              widget.incomeStatementClient.incomeStatement,
+                            ),
+                          ),
+                        ],
+                        xValueMapper: (_ChartData data, _) => data.category,
+                        yValueMapper: (_ChartData data, _) => data.value,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: .150.h),
             SizedBox(
               width: double.infinity,
               height: 15.7.h,
-
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +516,7 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
             ),
             SizedBox(height: 1.98.h),
             SizedBox(
-              height: 40.h,
+              height: 50.7.h,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -453,6 +528,140 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
                       fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.left,
+                  ),
+                  Card(
+                    child: SizedBox(
+                      height: 10.5.h,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 1.65.h,
+                          horizontal: 3.25.w,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ratio de Utilidad Bruta',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14.75.sp,
+                              ),
+                            ),
+                            Text(
+                              '${FianancialRatios.grossMargin(widget.incomeStatementClient.incomeStatement)}',
+                              style: TextStyle(
+                                fontSize: 18.85.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: SizedBox(
+                      height: 10.5.h,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 1.65.h,
+                          horizontal: 3.25.w,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ratio de Utilidad Operativa',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14.75.sp,
+                              ),
+                            ),
+                            Text(
+                              '${FianancialRatios.operatingMargin(widget.incomeStatementClient.incomeStatement)}',
+                              style: TextStyle(
+                                fontSize: 18.85.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: SizedBox(
+                      height: 10.5.h,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 1.65.h,
+                          horizontal: 3.25.w,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ratio de Utilidad Neta',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14.75.sp,
+                              ),
+                            ),
+                            Text(
+                              '${FianancialRatios.netMargin(widget.incomeStatementClient.incomeStatement)}',
+                              style: TextStyle(
+                                fontSize: 18.85.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: SizedBox(
+                      height: 10.5.h,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 1.65.h,
+                          horizontal: 3.25.w,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ratio de Cobertura de interes',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14.75.sp,
+                              ),
+                            ),
+                            Text(
+                              FianancialRatios.interesCoverageRatio(
+                                widget.incomeStatementClient.incomeStatement,
+                              ).toStringAsFixed(2),
+                              style: TextStyle(
+                                fontSize: 18.85.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
