@@ -50,7 +50,6 @@ class Utils {
   }
 
   //TODO: Balance permissions!
-  //TODO: Añadir cargo
 
   static bool hasIncomeStatementPermissions() {
     final permissionNames = userLogedPermissions
@@ -58,6 +57,21 @@ class Utils {
         .toList();
     return (permissionNames.contains('admin') ||
         permissionNames.contains('gestionar_estados'));
+  }
+
+  static double intervalIncomeGraph(IncomeStatement incomeStatement) {
+    final totalIncomes = incomeStatement.netSales + incomeStatement.otherIncome;
+    return totalIncomes;
+  }
+
+  static double intervalExpenseGraph(IncomeStatement incomeStatement) {
+    final totalExpenses =
+        incomeStatement.adminExpenses +
+        incomeStatement.costOfSales +
+        incomeStatement.financialExpenses +
+        incomeStatement.salesExpenses +
+        incomeStatement.taxes;
+    return totalExpenses;
   }
 
   static DateTime transformDueDate(String dateString) {
