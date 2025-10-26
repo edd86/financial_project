@@ -30,7 +30,6 @@ class BalanceEquityRepoImpl implements BalanceEquityRepo {
   Future<Response<List<BalanceEquity>>> getBalanceEquities(
     int balanceSheetId,
   ) async {
-    // TODO: implement getBalanceEquities
     final db = await DatabaseHelper().database;
     try {
       final rows = await db.query(
