@@ -6,6 +6,7 @@ List<String> dbSchemes = [
     name TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
+    rol TEXT NOT NULL,
     phone TEXT,
     password TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -170,7 +171,7 @@ List<String> dbSchemes = [
     ('admin'), ('consultar_clientes'),
     ('gestionar_clientes'), ('user_management'),
     ('consultar_obligaciones'), ('gestionar_obligaciones'),
-    ('consultar_balances'), ('gestionar_balances')
+    ('consultar_balances'), ('gestionar_balances'),
     ('gestionar_estados');
   ''',
   '''INSERT INTO simplified_regime (category_number, min_capital, max_capital, taxable_amount, due_pattern) VALUES 
