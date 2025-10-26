@@ -36,6 +36,10 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
+    final clientObligationProvider = Provider.of<ClientsObligationsProvider>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.85.w, vertical: 2.75.h),
@@ -112,10 +116,9 @@ class _ClientPageState extends State<ClientPage> {
                           .assignClientSimpleObligation(widget.client);
                       if (response.success) {
                         _showMessage(response);
-                        Provider.of<ClientsObligationsProvider>(
-                          context,
-                          listen: false,
-                        ).setClientObligations(widget.client.id!);
+                        clientObligationProvider.setClientObligations(
+                          widget.client.id!,
+                        );
                       } else {
                         _showMessage(response);
                       }

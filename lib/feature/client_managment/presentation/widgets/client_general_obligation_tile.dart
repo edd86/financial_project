@@ -24,8 +24,6 @@ class _ClientGeneralObligationTileState
   ClientGeneralRegime? generalRegime;
   bool isLoading = true;
 
-  //TODO: Se queda en constante carga cuando hay datos
-
   @override
   void initState() {
     super.initState();
