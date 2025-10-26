@@ -3,6 +3,7 @@ class UserRegis {
   final String name;
   final String userName;
   final String email;
+  final String rol;
   final String phone;
   final String password;
 
@@ -11,6 +12,7 @@ class UserRegis {
     required this.name,
     required this.userName,
     required this.email,
+    required this.rol,
     required this.phone,
     required this.password,
   });

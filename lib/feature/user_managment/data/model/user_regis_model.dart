@@ -3,6 +3,7 @@ class UserRegisModel {
   final String name;
   final String userName;
   final String email;
+  final String rol;
   final String phone;
   final String password;
   final DateTime? createdAt;
@@ -13,6 +14,7 @@ class UserRegisModel {
     required this.name,
     required this.userName,
     required this.email,
+    required this.rol,
     required this.phone,
     required this.password,
     this.createdAt,
@@ -25,6 +27,7 @@ class UserRegisModel {
       name: map['name'],
       userName: map['username'],
       email: map['email'],
+      rol: map['rol'],
       phone: map['phone'],
       password: map['password'],
       createdAt: DateTime.parse(map['created_at']),
@@ -37,6 +40,7 @@ class UserRegisModel {
       'name': name,
       'username': userName,
       'email': email,
+      'rol': rol,
       'phone': phone,
       'password': password,
       'created_at': createdAt!.toIso8601String(),
@@ -50,6 +54,7 @@ class UserRegisModel {
     String? name,
     String? userName,
     String? email,
+    String? rol,
     String? phone,
     String? password,
     DateTime? createdAt,
@@ -60,6 +65,7 @@ class UserRegisModel {
       name: name ?? this.name,
       userName: userName ?? this.userName,
       email: email ?? this.email,
+      rol: rol ?? this.rol,
       phone: phone ?? this.phone,
       password: password ?? this.password,
       createdAt: createdAt ?? this.createdAt,

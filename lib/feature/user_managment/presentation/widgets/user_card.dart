@@ -16,7 +16,7 @@ class UserCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Usuario',
+              user.rol,
               style: TextStyle(fontSize: 16.8.sp, fontWeight: FontWeight.bold),
             ),
             Row(

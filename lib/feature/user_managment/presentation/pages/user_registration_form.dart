@@ -35,6 +35,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _rolController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _adminCodeController = TextEditingController();
@@ -112,6 +113,17 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   }
                   return null;
                 },
+              ),
+              _spacer,
+              TextFormField(
+                controller: _rolController,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  label: GlobalWidgets.customLabelWidget(
+                    Icons.person_3_rounded,
+                    'Cargo o Rol',
+                  ),
+                ),
               ),
               _spacer,
               TextFormField(
@@ -238,6 +250,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                         name: _nameController.text,
                         userName: _usernameController.text,
                         email: _emailController.text,
+                        rol: _rolController.text,
                         phone: _phoneController.text,
                         password: _passwordController.text,
                       );

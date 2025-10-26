@@ -17,6 +17,7 @@ class UserUpdateBottomSheet extends StatefulWidget {
 class _UserUpdateBottomSheetState extends State<UserUpdateBottomSheet> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
+  late TextEditingController _rolController;
   late TextEditingController _phoneController;
   late TextEditingController _passwordController;
   late TextEditingController _usernameController;
@@ -27,6 +28,7 @@ class _UserUpdateBottomSheetState extends State<UserUpdateBottomSheet> {
     super.initState();
     _nameController = TextEditingController(text: widget.user.name);
     _emailController = TextEditingController(text: widget.user.email);
+    _rolController = TextEditingController(text: widget.user.rol);
     _phoneController = TextEditingController(text: widget.user.phone);
     _passwordController = TextEditingController();
     _usernameController = TextEditingController(text: widget.user.userName);
@@ -89,6 +91,21 @@ class _UserUpdateBottomSheetState extends State<UserUpdateBottomSheet> {
                   }
                   if (!EmailValidator.validate(value)) {
                     return 'Por favor, ingrese un correo electrónico válido';
+                  }
+                  return null;
+                },
+              ),
+              _spacer,
+              TextFormField(
+                controller: _rolController,
+                decoration: InputDecoration(
+                  labelText: 'Rolo o cargo',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person_3),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, ingrese el cargo';
                   }
                   return null;
                 },
@@ -162,6 +179,7 @@ class _UserUpdateBottomSheetState extends State<UserUpdateBottomSheet> {
                       name: _nameController.text,
                       userName: _usernameController.text,
                       email: _emailController.text,
+                      rol: _rolController.text,
                       phone: _phoneController.text,
                       password: _passwordController.text,
                     );

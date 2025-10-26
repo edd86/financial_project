@@ -7,6 +7,7 @@ class UserRegisMapper {
       name: entity.name,
       userName: entity.userName,
       email: entity.email,
+      rol: entity.rol,
       phone: entity.phone,
       password: entity.password,
     );
@@ -17,6 +18,7 @@ class UserRegisMapper {
       name: model.name,
       userName: model.userName,
       email: model.email,
+      rol: model.rol,
       phone: model.phone,
       password: model.password,
     );
