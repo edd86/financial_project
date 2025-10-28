@@ -1,5 +1,7 @@
 import 'package:animated_search_bar/animated_search_bar.dart';
 import 'package:financial_project/core/global_widgets.dart';
+import 'package:financial_project/core/response.dart';
+import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_resume.dart';
 import 'package:financial_project/feature/balance/presentation/pages/find_client_page.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
@@ -57,13 +59,20 @@ class _BalanceHomeState extends State<BalanceHome> {
                       balanceClient: client,
                     ),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              BalanceResume(balanceId: balance.id!),
-                        ),
-                      );
+                      if (Utils.hasBalancePermissions()) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BalanceResume(balanceId: balance.id!),
+                          ),
+                        );
+                      } else {
+                        Response res = Response.error(
+                          'No tiene permisos para realizar esta acción',
+                        );
+                        _showMessage(res);
+                      }
                     },
                   ),
                 );
@@ -82,11 +91,26 @@ class _BalanceHomeState extends State<BalanceHome> {
             Text('Nuevo Balance'),
           ],
         ),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => FindClientPage()),
-        ),
+        onPressed: () {
+          if (Utils.hasBalancePermissions()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FindClientPage()),
+            );
+          } else {
+            final res = Response.error(
+              'No tiene permisos para realizar esta acción',
+            );
+            _showMessage(res);
+          }
+        },
       ),
     );
+  }
+
+  void _showMessage(Response res) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(GlobalWidgets.customSnackBar(res.message, Colors.redAccent));
   }
 }
