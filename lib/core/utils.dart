@@ -49,7 +49,14 @@ class Utils {
         permissionNames.contains('gestionar_obligaciones'));
   }
 
-  //TODO: Balance permissions!
+  static bool hasBalancePermissions() {
+    final permisionNames = userLogedPermissions
+        .map((permission) => permission.name)
+        .toList();
+    return (permisionNames.contains('admin') ||
+        permisionNames.contains('consulta_balances') ||
+        permisionNames.contains('gestionar_balances'));
+  }
 
   static bool hasIncomeStatementPermissions() {
     final permissionNames = userLogedPermissions
