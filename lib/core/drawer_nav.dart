@@ -34,4 +34,10 @@ final List<DrawerElement> drawerElements = [
     'Manejo de estado de resultados',
     '/income-statement-home',
   ),
+  DrawerElement(
+    Icons.room_service,
+    'Servicios',
+    'Administración de servicios prestados',
+    '/services',
+  ),
 ];

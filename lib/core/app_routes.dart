@@ -9,6 +9,7 @@ import 'package:financial_project/feature/client_managment/presentation/pages/se
 import 'package:financial_project/feature/home/presentation/page/home_page.dart';
 import 'package:financial_project/feature/income_statement/presentation/pages/income_statement_form.dart';
 import 'package:financial_project/feature/income_statement/presentation/pages/income_statement_home.dart';
+import 'package:financial_project/feature/service_managment/presentation/pages/service_home_page.dart';
 import 'package:financial_project/feature/user_managment/presentation/pages/user_home_page.dart';
 import 'package:financial_project/feature/user_managment/presentation/pages/user_registration_form.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class AppRoutes {
   static const String userHome = '/user-home';
   static const String incomeStatementHome = '/income-statement-home';
   static const String incomeStatementForm = '/income-statement-form';
+  static const String serviceHome = '/services';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -67,6 +69,8 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => const IncomeStatementForm(),
         );
+      case serviceHome:
+        return MaterialPageRoute(builder: (context) => const ServiceHomePage());
       default:
         return null;
     }
