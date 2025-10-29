@@ -13,6 +13,7 @@ import 'package:financial_project/feature/client_managment/presentation/provider
 import 'package:financial_project/feature/income_statement/presentation/provider/client_statement_provider.dart';
 import 'package:financial_project/feature/income_statement/presentation/provider/income_statement_clients_provider.dart';
 import 'package:financial_project/feature/income_statement/presentation/provider/search_client_statement_provider.dart';
+import 'package:financial_project/feature/service_managment/presentation/provider/services_provider.dart';
 import 'package:financial_project/feature/user_managment/presentation/provider/user_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -61,6 +62,9 @@ void main() async {
         ),
         ChangeNotifierProvider<IncomeStatementClientsProvider>(
           create: (_) => IncomeStatementClientsProvider(),
+        ),
+        ChangeNotifierProvider<ServicesProvider>(
+          create: (_) => ServicesProvider(),
         ),
       ],
       child: const MainApp(),
