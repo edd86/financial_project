@@ -13,12 +13,14 @@ class ServicesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateService(ServiceEntity service) async {
+  Future<Response<ServiceEntity>> updateService(ServiceEntity service) async {
     final res = await ServiceRepoImpl().updateService(service);
     if (res.success) {
       setResService();
+      return Response.success(res.data!, message: res.message);
     } else {
       _resService = Response.error(res.message);
+      return Response.error(res.message);
     }
   }
 }
