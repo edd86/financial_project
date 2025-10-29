@@ -49,4 +49,26 @@ class ServiceRepoImpl implements SeviceRepo {
       return Response.error(e.toString());
     }
   }
+
+  @override
+  Future<Response<ServiceEntity>> findServiceByName(String name) async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final res = await db.query(
+        'services',
+        where: 'name = ?',
+        whereArgs: [name.toLowerCase()],
+      );
+
+      if (res.isEmpty) {
+        return Response.error('Servicio no encontrado');
+      }
+      return Response.success(
+        ServiceMapper.toEntity(ServiceModel.fromMap(res.first)),
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }
