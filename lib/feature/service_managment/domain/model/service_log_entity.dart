@@ -1,6 +1,7 @@
 class ServiceLogEntity {
   final int? id;
   final int clientId;
+  final int serviceId;
   final DateTime date;
   final DateTime? datePayed;
   final bool isPayed;
@@ -9,6 +10,7 @@ class ServiceLogEntity {
   const ServiceLogEntity({
     this.id,
     required this.clientId,
+    required this.serviceId,
     required this.date,
     this.datePayed,
     this.isPayed = false,

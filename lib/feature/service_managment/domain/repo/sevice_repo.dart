@@ -8,5 +8,11 @@ abstract class SeviceRepo {
   Future<Response<ServiceEntity>> updateService(ServiceEntity service);
   Future<Response<ServiceEntity>> findServiceByName(String name);
   Future<Response<List<ServiceLogClientEntity>>> getServicesLog();
-  Future<Response<ServiceLogEntity>> updateServiceLogPayed(ServiceLogEntity serviceLog);
+  Future<Response<ServiceLogEntity>> updateServiceLogPayed(
+    ServiceLogEntity serviceLog,
+  );
+  Future<Response<ServiceLogEntity>> addServiceLog(
+    int clientId,
+    String serviceName,
+  );
 }

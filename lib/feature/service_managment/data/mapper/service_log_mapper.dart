@@ -3,7 +3,9 @@ import 'package:financial_project/feature/service_managment/domain/model/service
 
 class ServiceLogMapper {
   static ServiceLogModel toModel(ServiceLogEntity entity) => ServiceLogModel(
+    id: entity.id,
     clientId: entity.clientId,
+    serviceId: entity.serviceId,
     date: entity.date,
     datePayed: entity.datePayed,
     isPayed: entity.isPayed,
@@ -11,7 +13,9 @@ class ServiceLogMapper {
   );
 
   static ServiceLogEntity toEntity(ServiceLogModel model) => ServiceLogEntity(
+    id: model.id,
     clientId: model.clientId,
+    serviceId: model.serviceId,
     date: model.date,
     datePayed: model.datePayed,
     isPayed: model.isPayed,

@@ -84,7 +84,7 @@ class ServiceRepoImpl implements SeviceRepo {
     List<ServiceLogClientEntity> resServiceLogClients = [];
 
     try {
-      final resServiceLog = await db.query('service_log');
+      final resServiceLog = await db.query('service_log', orderBy: 'date DESC');
       if (resServiceLog.isEmpty) {
         return Response.success([], message: 'No existen registros');
       }
@@ -96,12 +96,11 @@ class ServiceRepoImpl implements SeviceRepo {
           'clients',
           where: 'id = ?',
           whereArgs: [serviceLog.clientId],
-          orderBy: 'date',
         );
         final resService = await db.query(
           'services',
           where: 'id = ?',
-          whereArgs: [serviceLog.clientId],
+          whereArgs: [serviceLog.serviceId],
         );
         if (resClient.isEmpty) {
           return Response.error('Cliente no encontrado');
@@ -134,16 +133,55 @@ class ServiceRepoImpl implements SeviceRepo {
     final serviceLogModel = ServiceLogMapper.toModel(serviceLog);
 
     try {
+      final serviceToUpdate = serviceLogModel.copyWith(
+        datePayed: DateTime.now(),
+        isPayed: true,
+      );
       final res = await db.update(
         'service_log',
-        serviceLogModel.toMap(),
+        serviceToUpdate.toMap(),
         where: 'id = ?',
-        whereArgs: [serviceLog.id],
+        whereArgs: [serviceToUpdate.id],
       );
       if (res > 0) {
         return Response.success(serviceLog, message: 'Registro actualizado');
       }
       return Response.error('Error al actualizar registro');
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<ServiceLogEntity>> addServiceLog(
+    int clientId,
+    String serviceName,
+  ) async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final serviceRes = await findServiceByName(serviceName);
+      if (!serviceRes.success) {
+        return Response.error(serviceRes.message);
+      }
+      final service = serviceRes.data!;
+      final serviceLogModel = ServiceLogModel(
+        clientId: clientId,
+        serviceId: service.id!,
+        date: DateTime.now(),
+        amount: service.amount,
+      );
+      final newServiceLog = serviceLogModel.copyWith(
+        serviceId: service.id,
+        amount: service.amount,
+      );
+      final res = await db.insert('service_log', newServiceLog.toMap());
+      if (res < 0) {
+        return Response.error('Error al agregar registro');
+      }
+      return Response.success(
+        ServiceLogMapper.toEntity(newServiceLog.copyWith(id: res)),
+      );
     } catch (e) {
       return Response.error(e.toString());
     }

@@ -1,6 +1,7 @@
 class ServiceLogModel {
   final int? id;
   final int clientId;
+  final int serviceId;
   final DateTime date;
   final DateTime? datePayed;
   final bool isPayed;
@@ -9,6 +10,7 @@ class ServiceLogModel {
   const ServiceLogModel({
     this.id,
     required this.clientId,
+    required this.serviceId,
     required this.date,
     this.datePayed,
     this.isPayed = false,
@@ -18,6 +20,7 @@ class ServiceLogModel {
   ServiceLogModel copyWith({
     int? id,
     int? clientId,
+    int? serviceId,
     DateTime? date,
     DateTime? datePayed,
     bool? isPayed,
@@ -26,6 +29,7 @@ class ServiceLogModel {
     return ServiceLogModel(
       id: id ?? this.id,
       clientId: clientId ?? this.clientId,
+      serviceId: serviceId ?? this.serviceId,
       date: date ?? this.date,
       datePayed: datePayed ?? this.datePayed,
       isPayed: isPayed ?? this.isPayed,
@@ -37,6 +41,7 @@ class ServiceLogModel {
     return {
       'id': id,
       'client_id': clientId,
+      'service_id': serviceId,
       'date': date.toIso8601String(),
       'date_payed': datePayed?.toIso8601String(),
       'is_payed': isPayed ? 1 : 0,
@@ -48,6 +53,7 @@ class ServiceLogModel {
     return ServiceLogModel(
       id: map['id'],
       clientId: map['client_id'],
+      serviceId: map['service_id'],
       date: DateTime.parse(map['date']),
       datePayed: map['date_payed'] == null
           ? null
