@@ -35,6 +35,12 @@ final List<DrawerElement> drawerElements = [
     '/income-statement-home',
   ),
   DrawerElement(
+    Icons.monetization_on,
+    'Cobros',
+    'Cobros de servicios',
+    '/charge',
+  ),
+  DrawerElement(
     Icons.room_service,
     'Servicios',
     'Administración de servicios prestados',
