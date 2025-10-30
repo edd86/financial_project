@@ -6,6 +6,7 @@ import 'package:financial_project/feature/income_statement/domain/model/income_s
 import 'package:financial_project/feature/income_statement/presentation/provider/client_statement_provider.dart';
 import 'package:financial_project/feature/income_statement/presentation/widgets/client_statement_card.dart';
 import 'package:financial_project/feature/income_statement/presentation/widgets/search_client_statement.dart';
+import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -184,6 +185,11 @@ class _IncomeStatementFormState extends State<IncomeStatementForm> {
                       final res = await IncomeStatementRepoImpl()
                           .createIncomeStatement(state);
                       if (res.success) {
+                        final resServiceLog = await ServiceRepoImpl()
+                            .addServiceLog(client.id, 'resultados');
+                        if (!resServiceLog.success) {
+                          _showSnackBar(Response.error(resServiceLog.message));
+                        }
                         _backPage();
                       }
                       _showSnackBar(res);
