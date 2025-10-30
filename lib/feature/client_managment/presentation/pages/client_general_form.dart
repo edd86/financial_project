@@ -5,6 +5,7 @@ import 'package:financial_project/feature/client_managment/data/repo/client_repo
 import 'package:financial_project/feature/client_managment/domain/model/client.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client_monthly_record.dart';
 import 'package:financial_project/feature/client_managment/presentation/provider/clients_obligations_provider.dart';
+import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -84,6 +85,13 @@ class _ClientGeneralFormState extends State<ClientGeneralForm> {
                   if (resObligation.success) {
                     provider.setClientObligations(widget.client.id!);
                     _backPage();
+                    final resServiceLog = await ServiceRepoImpl().addServiceLog(
+                      widget.client.id!,
+                      'obligaciones',
+                    );
+                    if (!resServiceLog.success) {
+                      _showMessage(Response.error(resServiceLog.message));
+                    }
                   }
                   _showMessage(resObligation);
                 }

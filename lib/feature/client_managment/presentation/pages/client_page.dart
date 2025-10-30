@@ -9,6 +9,7 @@ import 'package:financial_project/feature/client_managment/presentation/provider
 import 'package:financial_project/feature/client_managment/presentation/widgets/client_detail.dart';
 import 'package:financial_project/feature/client_managment/presentation/widgets/client_general_obligation_tile.dart';
 import 'package:financial_project/feature/client_managment/presentation/widgets/client_simple_obligation_tile.dart';
+import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -115,13 +116,16 @@ class _ClientPageState extends State<ClientPage> {
                       final response = await ClientRepoImpl()
                           .assignClientSimpleObligation(widget.client);
                       if (response.success) {
-                        _showMessage(response);
                         clientObligationProvider.setClientObligations(
                           widget.client.id!,
                         );
-                      } else {
-                        _showMessage(response);
+                        final resServiceLog = await ServiceRepoImpl()
+                            .addServiceLog(widget.client.id!, 'obligaciones');
+                        if (!resServiceLog.success) {
+                          _showMessage(Response.error(resServiceLog.message));
+                        }
                       }
+                      _showMessage(response);
                     } else {
                       _generalFormPage(widget.client);
                     }
