@@ -1,6 +1,9 @@
 import 'package:financial_project/core/global_widgets.dart';
+import 'package:financial_project/core/response.dart';
 import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
+import 'package:financial_project/feature/service_managment/domain/model/service_log_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class ChargeHomePage extends StatefulWidget {
   const ChargeHomePage({super.key});
@@ -40,14 +43,58 @@ class _ChargeHomePageState extends State<ChargeHomePage> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(services[index].clientName),
-                  subtitle: Text(services[index].serviceName),
-                  leading: Text(services[index].serviceLog.amount.toString()),
+                  subtitle: Text(
+                    services[index].serviceName.toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.85.sp,
+                    ),
+                  ),
+                  leading: Text(
+                    '${services[index].serviceLog.amount.toStringAsFixed(2)} bs.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.85.sp,
+                    ),
+                  ),
+                  trailing: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        services[index].serviceLog.isPayed
+                            ? Colors.grey[600]
+                            : Colors.deepPurple,
+                      ),
+                      foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    ),
+                    child: services[index].serviceLog.isPayed
+                        ? Text('Pagado')
+                        : Text('Cobrar'),
+                    onPressed: () async {
+                      if (!services[index].serviceLog.isPayed) {
+                        final res = await ServiceRepoImpl()
+                            .updateServiceLogPayed(services[index].serviceLog);
+                        if (res.success) {
+                          setState(() {});
+                        }
+                        _showMessage(res);
+                      }
+                    },
+                  ),
                 );
               },
             );
           }
           return Center(child: Text('No existen registros'));
         },
+      ),
+    );
+  }
+
+  void _showMessage(Response<ServiceLogEntity> res) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      GlobalWidgets.customSnackBar(
+        res.message,
+        res.success ? Colors.deepPurple : Colors.redAccent,
       ),
     );
   }
