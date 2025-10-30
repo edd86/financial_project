@@ -175,11 +175,13 @@ List<String> dbSchemes = [
   '''CREATE TABLE service_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     client_id INTEGER NOT NULL,
+    service_id INTEGER NOT NULL,
     date TEXT NOT NULL,
     date_payed TEXT,
     is_payed INTEGER NOT NULL DEFAULT 0,
     amount REAL NOT NULL DEFAULT 0.0,
     FOREIGN KEY(client_id) REFERENCES clients(id)
+    FOREIGN KEY(service_id) REFERENCES services(id)
   );''',
   '''INSERT INTO permissions (name) VALUES 
     ('admin'), ('consultar_clientes'),
@@ -187,11 +189,6 @@ List<String> dbSchemes = [
     ('consultar_obligaciones'), ('gestionar_obligaciones'),
     ('consultar_balances'), ('gestionar_balances'),
     ('gestionar_estados');
-  ''',
-  '''INSERT INTO services (name, amount) VALUES
-    ('obligaciones', 60.0),
-    ('balance', 70.0),
-    ('resultados', 120.0);
   ''',
   '''INSERT INTO simplified_regime (category_number, min_capital, max_capital, taxable_amount, due_pattern) VALUES 
     ('Categoria 1', 12001, 15000, 47, '3-10,5-10,7-10,9-10,11-10,1-10'),
@@ -205,5 +202,10 @@ List<String> dbSchemes = [
     ('IVA', 'mensual', 13.0, '13,22'),
     ('IT', 'mensual', 3.0, '13,22'),
     ('IUE', 'anual', 25.0, '3-31,06-30,09-30,12-31');
+  ''',
+  '''INSERT INTO services (name, amount) VALUES
+    ('obligaciones', 60.0),
+    ('balance', 70.0),
+    ('resultados', 120.0);
   ''',
 ];

@@ -3,8 +3,8 @@ import 'package:financial_project/feature/service_managment/domain/model/service
 
 class ServiceMapper {
   static ServiceModel toModel(ServiceEntity entity) =>
-      ServiceModel(name: entity.name, amount: entity.amount);
+      ServiceModel(id: entity.id, name: entity.name, amount: entity.amount);
 
   static ServiceEntity toEntity(ServiceModel model) =>
-      ServiceEntity(name: model.name, amount: model.amount);
+      ServiceEntity(id: model.id, name: model.name, amount: model.amount);
 }

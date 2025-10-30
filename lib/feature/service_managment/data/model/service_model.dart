@@ -19,9 +19,9 @@ class ServiceModel {
 
   factory ServiceModel.fromMap(Map<String, dynamic> map) {
     return ServiceModel(
-      id: map['id'] as int?,
-      name: map['name'] as String,
-      amount: (map['amount'] as num).toDouble(),
+      id: map['id'],
+      name: map['name'],
+      amount: map['amount'].toDouble(),
     );
   }
 }

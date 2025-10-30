@@ -1,5 +1,6 @@
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/feature/service_managment/presentation/provider/services_provider.dart';
+import 'package:financial_project/feature/service_managment/presentation/widgets/services_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +13,16 @@ class ServiceHomePage extends StatefulWidget {
 
 class _ServiceHomePageState extends State<ServiceHomePage> {
   @override
+  void initState() {
+    super.initState();
+    // Llamar al método después de que el widget se haya construido
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ServicesProvider>(context, listen: false).setResService();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Provider.of<ServicesProvider>(context, listen: false).setResService;
     return Scaffold(
       appBar: AppBar(
         title: Text('Servicios'),
@@ -32,7 +41,7 @@ class _ServiceHomePageState extends State<ServiceHomePage> {
             return ListView.builder(
               itemCount: services.length,
               itemBuilder: (context, index) {
-                return ListTile(title: Text(services[index].name));
+                return ServicesTile(service: services[index]);
               },
             );
           }
