@@ -5,6 +5,7 @@ import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
 import 'package:financial_project/feature/balance/domain/model/balance_sheet.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
+import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -120,6 +121,11 @@ class _BalanceModalBottomState extends State<BalanceModalBottom> {
                     );
                     if (res.success) {
                       balanceListProvider.getBalanceSheets();
+                      final resServiceLog = await ServiceRepoImpl()
+                          .addServiceLog(widget.clientId, 'balance');
+                      if (!resServiceLog.success) {
+                        _showMessage(Response.error(resServiceLog.message));
+                      }
                       _backPage();
                     }
                     _showMessage(res);
