@@ -175,11 +175,13 @@ List<String> dbSchemes = [
   '''CREATE TABLE service_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     client_id INTEGER NOT NULL,
+    service_id INTEGER NOT NULL,
     date TEXT NOT NULL,
     date_payed TEXT,
     is_payed INTEGER NOT NULL DEFAULT 0,
     amount REAL NOT NULL DEFAULT 0.0,
     FOREIGN KEY(client_id) REFERENCES clients(id)
+    FOREIGN KEY(service_id) REFERENCES services(id)
   );''',
   '''INSERT INTO permissions (name) VALUES 
     ('admin'), ('consultar_clientes'),
