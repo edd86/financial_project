@@ -1,5 +1,3 @@
-//TODO: Almacenar cobros por el servicio, Menu de usuarios, Estado de resultados
-
 List<String> dbSchemes = [
   '''CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,7 +46,7 @@ List<String> dbSchemes = [
     tax_id TEXT NOT NULL UNIQUE,
     capital REAL NOT NULL DEFAULT 0.0,
     regime_type TEXT NOT NULL CHECK (regime_type IN ('simplificado', 'general')),
-    activity TEXT CHECK (activity IN ('artesanias', 'minorista', 'vendedor') OR activity IS NULL),
+    activity TEXT CHECK (activity IN ('artesanias', 'minorista', 'vivandero') OR activity IS NULL),
     description TEXT,
     base_product_price REAL,
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
