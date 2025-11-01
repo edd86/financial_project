@@ -5,6 +5,7 @@ import 'package:financial_project/feature/balance/domain/model/balance_client.da
 import 'package:financial_project/feature/balance/domain/model/balance_sheet.dart';
 import 'package:financial_project/feature/balance/presentation/provider/balance_sheet_list_provider.dart';
 import 'package:financial_project/feature/balance/presentation/widget/alert_dialog_options.dart';
+import 'package:financial_project/feature/balance/presentation/widget/balance_edit_modal_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -105,7 +106,10 @@ class _BalanceClientTileState extends State<BalanceClientTile> {
                     child: IconButton(
                       icon: Icon(Icons.edit, size: 17.78.sp),
                       color: Colors.white,
-                      onPressed: () {},
+                      onPressed: () => _showModalBottom(
+                        widget.balanceSheet,
+                        widget.balanceClient,
+                      ),
                     ),
                   ),
                   Container(
@@ -152,4 +156,19 @@ class _BalanceClientTileState extends State<BalanceClientTile> {
       listen: false,
     ).getBalanceSheets();
   }
+
+  void _showModalBottom(
+    BalanceSheet balanceSheet,
+    BalanceClient balanceClient,
+  ) => showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+    ),
+    builder: (context) => BalanceEditModalBottom(
+      balanceClient: balanceClient,
+      balanceSheet: balanceSheet,
+    ),
+  );
 }

@@ -14,4 +14,5 @@ abstract class BalanceSheetRepo {
   );
   Future<Response<BalanceResumeEntity>> getBalanceResume(int balanceId);
   Future<Response<BalanceSheet>> deleteBalanceSheet(BalanceSheet balance);
+  Future<Response<BalanceSheet>> updateBalanceSheet(BalanceSheet balance);
 }

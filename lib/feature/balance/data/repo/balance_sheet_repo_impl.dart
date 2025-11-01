@@ -287,4 +287,27 @@ class BalanceSheetRepoImpl implements BalanceSheetRepo {
       return Response.error(e.toString());
     }
   }
+
+  @override
+  Future<Response<BalanceSheet>> updateBalanceSheet(
+    BalanceSheet balance,
+  ) async {
+    final db = await DatabaseHelper().database;
+    final balanceModel = BalanceSheetMapper.toModel(balance);
+
+    try {
+      final res = await db.update(
+        'balance_sheets',
+        balanceModel.toMap(),
+        where: 'id = ?',
+        whereArgs: [balanceModel.id],
+      );
+      if (res <= 0) {
+        return Response.error('Error al actualizar el balance');
+      }
+      return Response.success(balance, message: 'Balance actualizado');
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }
