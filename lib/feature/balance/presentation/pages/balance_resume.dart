@@ -1,4 +1,5 @@
 import 'package:financial_project/core/fianancial_ratios.dart';
+import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/balance/data/repo/balance_sheet_repo_impl.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_assets_page.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_liabilities_page.dart';
@@ -270,6 +271,18 @@ class BalanceResume extends StatelessWidget {
                                       balanceResume.totalAssets,
                                       balanceResume.totalLiabilities,
                                     ).toStringAsFixed(2),
+                              style: TextStyle(
+                                fontSize: 20.78.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            /// Interpretación de la razón de liquidez
+                            Text(
+                              Utils.liquidityRatioString(
+                                balanceResume.totalAssets,
+                                balanceResume.totalLiabilities,
+                              ),
                               style: TextStyle(
                                 fontSize: 20.78.sp,
                                 fontWeight: FontWeight.bold,

@@ -192,4 +192,21 @@ class Utils {
   static double utilityNet(IncomeStatement incomeStatement) {
     return utilityBefTax(incomeStatement) - incomeStatement.taxes;
   }
+
+  static String liquidityRatioString(
+    double totalAssets,
+    double totalLiabilities,
+  ) {
+    if (totalLiabilities == 0) {
+      return 'N/A';
+    }
+    final value = totalAssets / totalLiabilities;
+    if (value >= 0 && value <= 0.5) {
+      return 'Liquidez estable pero insuficiente';
+    } else if (value > 0.5 && value <= 1.5) {
+      return 'Liquidez moderada';
+    } else {
+      return 'Liquidez alta';
+    }
+  }
 }
