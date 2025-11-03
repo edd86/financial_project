@@ -551,7 +551,9 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
                               ),
                             ),
                             Text(
-                              '${FianancialRatios.grossMargin(widget.incomeStatementClient.incomeStatement)}',
+                              FianancialRatios.grossMargin(
+                                widget.incomeStatementClient.incomeStatement,
+                              ).toStringAsFixed(2),
                               style: TextStyle(
                                 fontSize: 18.85.sp,
                                 fontWeight: FontWeight.bold,
@@ -584,7 +586,9 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
                               ),
                             ),
                             Text(
-                              '${FianancialRatios.operatingMargin(widget.incomeStatementClient.incomeStatement)}',
+                              FianancialRatios.operatingMargin(
+                                widget.incomeStatementClient.incomeStatement,
+                              ).toStringAsFixed(2),
                               style: TextStyle(
                                 fontSize: 18.85.sp,
                                 fontWeight: FontWeight.bold,
@@ -617,7 +621,9 @@ class _IncomStatementClientPageState extends State<IncomStatementClientPage> {
                               ),
                             ),
                             Text(
-                              '${FianancialRatios.netMargin(widget.incomeStatementClient.incomeStatement)}',
+                              FianancialRatios.netMargin(
+                                widget.incomeStatementClient.incomeStatement,
+                              ).toStringAsFixed(2),
                               style: TextStyle(
                                 fontSize: 18.85.sp,
                                 fontWeight: FontWeight.bold,
