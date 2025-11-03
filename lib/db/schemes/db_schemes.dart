@@ -178,7 +178,7 @@ List<String> dbSchemes = [
     date_payed TEXT,
     is_payed INTEGER NOT NULL DEFAULT 0,
     amount REAL NOT NULL DEFAULT 0.0,
-    FOREIGN KEY(client_id) REFERENCES clients(id)
+    FOREIGN KEY(client_id) REFERENCES clients(id) ON DELETE CASCADE
     FOREIGN KEY(service_id) REFERENCES services(id)
   );''',
   '''INSERT INTO permissions (name) VALUES 
