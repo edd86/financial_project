@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:financial_project/core/response.dart';
 import 'package:financial_project/feature/auth/data/model/user_permission_auth_model.dart';
 import 'package:financial_project/feature/income_statement/domain/model/income_statement.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -191,6 +192,15 @@ class Utils {
 
   static double utilityNet(IncomeStatement incomeStatement) {
     return utilityBefTax(incomeStatement) - incomeStatement.taxes;
+  }
+
+  static Response<bool> validateBalanceEq(
+    double totalAssets,
+    double totalLiabilities,
+    double equity,
+  ) {
+    final liabilitiesEquity = totalLiabilities + equity;
+    return Response.success(liabilitiesEquity == totalAssets);
   }
 
   static String liquidityRatioString(

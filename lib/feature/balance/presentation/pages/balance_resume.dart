@@ -25,6 +25,7 @@ class BalanceResume extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spacer = SizedBox(height: 2.5.h);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,6 +48,11 @@ class BalanceResume extends StatelessWidget {
             if (balanceResume == null) {
               return Center(child: Text(snapshot.data!.message));
             }
+            final validateBalance = Utils.validateBalanceEq(
+              balanceResume.totalAssets,
+              balanceResume.totalLiabilities,
+              balanceResume.totalEquity,
+            );
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -60,6 +66,35 @@ class BalanceResume extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  spacer,
+                  validateBalance.data == true
+                      ? SizedBox()
+                      : Card(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 6.95.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Desbalance contable ',
+                                  style: TextStyle(
+                                    fontSize: 17.85.sp,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'No se cumple la igualdad Activo = Pasivo + Capital',
+                                  style: TextStyle(
+                                    fontSize: 13.7.sp,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                   spacer,
                   Card(
                     child: SizedBox(
