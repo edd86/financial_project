@@ -14,6 +14,7 @@ abstract class ClientRepo {
   Future<Response<ClientObligation>> assignClientSimpleObligation(
     Client client,
   );
+  Future<Response<Client>> deleteClient(Client client);
   Future<Response<List<ClientObligation>>> assignClientGeneralObligation(
     ClientMonthlyRecord clientRecord,
   );

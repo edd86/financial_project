@@ -496,4 +496,27 @@ class ClientRepoImpl implements ClientRepo {
       return Response.error(e.toString());
     }
   }
+
+  @override
+  Future<Response<Client>> deleteClient(Client client) async {
+    final db = await DatabaseHelper().database;
+    final clientModel = ClientMapper.toModel(client);
+
+    try {
+      final res = await db.delete(
+        'clients',
+        where: 'id = ?',
+        whereArgs: [client.id],
+      );
+      if (res <= 0) {
+        return Response.error('No se pudo eliminar el cliente');
+      }
+      return Response.success(
+        ClientMapper.toEntity(clientModel.copyWith(id: null)),
+        message: 'Cliente eliminado',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }
