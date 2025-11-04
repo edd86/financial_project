@@ -1,6 +1,7 @@
 import 'package:financial_project/feature/auth/presentation/page/login_page.dart';
 import 'package:financial_project/feature/balance/presentation/pages/balance_home.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client.dart';
+import 'package:financial_project/feature/client_managment/presentation/pages/client_edit_form.dart';
 import 'package:financial_project/feature/client_managment/presentation/pages/client_form.dart';
 import 'package:financial_project/feature/client_managment/presentation/pages/client_general_form.dart';
 import 'package:financial_project/feature/client_managment/presentation/pages/client_page.dart';
@@ -30,6 +31,7 @@ class AppRoutes {
   static const String incomeStatementForm = '/income-statement-form';
   static const String serviceHome = '/services';
   static const String charge = '/charge';
+  static const String clientEditForm = '/client-edit-form';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -75,6 +77,11 @@ class AppRoutes {
         return MaterialPageRoute(builder: (context) => const ServiceHomePage());
       case charge:
         return MaterialPageRoute(builder: (context) => const ChargeHomePage());
+      case clientEditForm:
+        final client = settings.arguments as Client;
+        return MaterialPageRoute(
+          builder: (context) => ClientEditForm(client: client),
+        );
       default:
         return null;
     }
