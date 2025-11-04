@@ -2,7 +2,9 @@ import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/core/response.dart';
 import 'package:financial_project/feature/service_managment/data/repo/service_repo_impl.dart';
 import 'package:financial_project/feature/service_managment/domain/model/service_log_entity.dart';
+import 'package:financial_project/feature/service_managment/presentation/provider/services_total_amount_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ChargeHomePage extends StatefulWidget {
@@ -15,11 +17,28 @@ class ChargeHomePage extends StatefulWidget {
 class _ChargeHomePageState extends State<ChargeHomePage> {
   @override
   Widget build(BuildContext context) {
+    final totalAmountProvider = Provider.of<ServicesTotalAmountProvider>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text('Cargos'),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          Consumer<ServicesTotalAmountProvider>(
+            builder: (context, provider, child) {
+              return Text(
+                '${provider.totalAmount.toStringAsFixed(2)} bs.',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.85.sp,
+                ),
+              );
+            },
+          ),
+        ],
       ),
       drawer: GlobalWidgets.customDrawer(context),
       body: FutureBuilder(
@@ -74,6 +93,7 @@ class _ChargeHomePageState extends State<ChargeHomePage> {
                         final res = await ServiceRepoImpl()
                             .updateServiceLogPayed(services[index].serviceLog);
                         if (res.success) {
+                          totalAmountProvider.getTotalAmount();
                           setState(() {});
                         }
                         _showMessage(res);
