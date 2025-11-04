@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../schemes/db_schemes.dart';
+import 'dart:io';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -23,7 +24,8 @@ class DatabaseHelper {
 
   // Initialize database
   Future<Database> _initDatabase() async {
-    // Get the database path
+    // Obtiene la ruta del archivo de la base de datos
+    // Validaro de entorno - Windows, linux, ios, androi
     String path = join(await getDatabasesPath(), 'financial_database.db');
 
     // Open/create the database at a given path
@@ -53,5 +55,12 @@ class DatabaseHelper {
     final db = await database;
     db.close();
     _database = null;
+  }
+
+  // Exportar base de datos
+  Future<File> exportDatabase() async {
+    final path = await getDatabasesPath();
+    final file = File(join(path, 'financial_database.db'));
+    return file;
   }
 }
