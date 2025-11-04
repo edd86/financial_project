@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:financial_project/core/app_routes.dart';
 import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/feature/client_managment/data/repo/client_repo_impl.dart';
 import 'package:financial_project/feature/client_managment/domain/model/client.dart';
@@ -62,12 +63,19 @@ class ClientCard extends StatelessWidget {
             ),
             Positioned(
               bottom: 0.5.h,
+              right: 2.85.w,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
                     icon: Icon(Icons.edit, size: 17.75.sp),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.clientEditForm,
+                        arguments: client,
+                      );
+                    },
                   ),
                   IconButton(
                     icon: Icon(Icons.delete, size: 17.75.sp),
