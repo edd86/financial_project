@@ -12,6 +12,8 @@ class ClientMapper {
       activity: client.activity,
       description: client.description,
       baseProductPrice: client.baseProductPrice,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
     );
   }
 
@@ -25,6 +27,8 @@ class ClientMapper {
       activity: clientModel.activity,
       description: clientModel.description,
       baseProductPrice: clientModel.baseProductPrice,
+      createdAt: clientModel.createdAt,
+      updatedAt: clientModel.updatedAt,
     );
   }
 }

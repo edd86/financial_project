@@ -7,8 +7,8 @@ class ClientModel {
   final String? activity;
   final String? description;
   final double? baseProductPrice;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   ClientModel({
     this.id,
@@ -33,8 +33,8 @@ class ClientModel {
       'activity': activity,
       'description': description,
       'base_product_price': baseProductPrice,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
+      'created_at': createdAt!.toIso8601String(),
+      'updated_at': updatedAt!.toIso8601String(),
     };
   }
 
@@ -48,8 +48,8 @@ class ClientModel {
       activity: map['activity'],
       description: map['description'],
       baseProductPrice: map['base_product_price']?.toDouble(),
-      createdAt: map['created_at'],
-      updatedAt: map['updated_at'],
+      createdAt: DateTime.parse(map['created_at']),
+      updatedAt: DateTime.parse(map['updated_at']),
     );
   }
 
@@ -62,8 +62,8 @@ class ClientModel {
     String? activity,
     String? description,
     double? baseProductPrice,
-    String? createdAt,
-    String? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return ClientModel(
       id: id ?? this.id,

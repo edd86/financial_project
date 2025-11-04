@@ -7,6 +7,8 @@ class Client {
   final String? activity;
   final String? description;
   final double? baseProductPrice;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Client({
     this.id,
@@ -17,5 +19,7 @@ class Client {
     this.activity,
     this.description,
     this.baseProductPrice,
+    this.createdAt,
+    this.updatedAt,
   });
 }
