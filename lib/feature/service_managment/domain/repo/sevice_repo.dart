@@ -15,4 +15,5 @@ abstract class SeviceRepo {
     int clientId,
     String serviceName,
   );
+  Future<Response<double>> getTotalEarnings();
 }

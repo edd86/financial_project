@@ -186,4 +186,33 @@ class ServiceRepoImpl implements SeviceRepo {
       return Response.error(e.toString());
     }
   }
+
+  @override
+  Future<Response<double>> getTotalEarnings() async {
+    final db = await DatabaseHelper().database;
+
+    try {
+      final res = await db.query('service_log');
+      if (res.isEmpty) {
+        return Response.success(0.0, message: 'No existen registros');
+      }
+
+      final servicesLog = res
+          .map(
+            (service) =>
+                ServiceLogMapper.toEntity(ServiceLogModel.fromMap(service)),
+          )
+          .toList();
+
+      return Response.success(
+        servicesLog.fold(
+          0.0,
+          (previousValue, element) =>
+              previousValue + (element.isPayed ? element.amount : 0.0),
+        ),
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }
