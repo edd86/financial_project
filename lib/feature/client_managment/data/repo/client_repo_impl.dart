@@ -27,10 +27,7 @@ class ClientRepoImpl implements ClientRepo {
       final id = await db.insert(
         'clients',
         clientModel
-            .copyWith(
-              createdAt: DateTime.now().toIso8601String(),
-              updatedAt: DateTime.now().toIso8601String(),
-            )
+            .copyWith(createdAt: DateTime.now(), updatedAt: DateTime.now())
             .toMap(),
       );
       if (id <= 0) {
@@ -514,6 +511,32 @@ class ClientRepoImpl implements ClientRepo {
       return Response.success(
         ClientMapper.toEntity(clientModel.copyWith(id: null)),
         message: 'Cliente eliminado',
+      );
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
+
+  @override
+  Future<Response<Client>> updateClient(Client client) async {
+    final db = await DatabaseHelper().database;
+    final clientModel = ClientMapper.toModel(
+      client,
+    ).copyWith(updatedAt: DateTime.now());
+
+    try {
+      final res = await db.update(
+        'clients',
+        clientModel.toMap(),
+        where: 'id = ?',
+        whereArgs: [client.id],
+      );
+      if (res <= 0) {
+        return Response.error('No se pudo actualizar el cliente');
+      }
+      return Response.success(
+        ClientMapper.toEntity(clientModel),
+        message: 'Cliente actualizado',
       );
     } catch (e) {
       return Response.error(e.toString());

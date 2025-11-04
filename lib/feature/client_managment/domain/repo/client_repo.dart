@@ -29,4 +29,5 @@ abstract class ClientRepo {
   );
   Future<Response<bool>> exitsRecord(String month, int year);
   Future<Response<ClientGeneralRegime>> getClientGeneralRegime(int regimeId);
+  Future<Response<Client>> updateClient(Client client);
 }
