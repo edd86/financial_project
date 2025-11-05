@@ -59,9 +59,9 @@ class _IncomeStatementFormState extends State<IncomeStatementForm> {
             children: [
               Consumer<ClientStatementProvider>(
                 builder: (context, provider, child) {
-                  final client = provider.client;
-                  return client != null
-                      ? ClientStatementCard(clientStatement: client)
+                  final clientStatement = provider.client;
+                  return clientStatement != null
+                      ? ClientStatementCard(clientStatement: clientStatement)
                       : TextButton(
                           child: Text('Seleccione Cliente'),
                           onPressed: () => Navigator.push(
@@ -188,10 +188,8 @@ class _IncomeStatementFormState extends State<IncomeStatementForm> {
                       if (res.success) {
                         final resServiceLog = await ServiceRepoImpl()
                             .addServiceLog(client.id, 'resultados');
-                        Provider.of<IncomeStatementClientsProvider>(
-                          context,
-                          listen: false,
-                        ).setStatementClientRes(name: '');
+                        _modifyProviders();
+
                         if (!resServiceLog.success) {
                           _showSnackBar(Response.error(resServiceLog.message));
                         }
@@ -245,5 +243,16 @@ class _IncomeStatementFormState extends State<IncomeStatementForm> {
 
   void _backPage() {
     Navigator.pop(context);
+  }
+
+  void _modifyProviders() {
+    Provider.of<ClientStatementProvider>(
+      context,
+      listen: false,
+    ).setClient(null);
+    Provider.of<IncomeStatementClientsProvider>(
+      context,
+      listen: false,
+    ).setStatementClientRes(name: '');
   }
 }

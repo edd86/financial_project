@@ -22,7 +22,7 @@ class ClientStatementCard extends StatelessWidget {
             ),
             Text(
               clientStatement.nitCi,
-              style: TextStyle(fontSize: 13.9.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 10.9.sp, fontWeight: FontWeight.w500),
             ),
           ],
         ),
