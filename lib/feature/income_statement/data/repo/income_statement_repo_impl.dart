@@ -157,4 +157,28 @@ class IncomeStatementRepoImpl implements IncomeStatementRepo {
       return Response.error(e.toString());
     }
   }
+
+  //Construccion de los métodos de actualizar y eliminar
+  @override
+  Future<Response<ClientStatement>> deleteClientStatement(
+    ClientStatement client,
+  ) async {
+    final db = await DatabaseHelper().database;
+
+    final clientModel = ClientStatementMapper.toModel(client);
+
+    try {
+      final res = await db.delete(
+        'income_statements',
+        where: 'client_id = ?',
+        whereArgs: [clientModel.id],
+      );
+      if (res <= 0) {
+        return Response.error('No se pudo eliminar el estado');
+      }
+      return Response.success(message: 'Estado eliminado con éxito', client);
+    } catch (e) {
+      return Response.error(e.toString());
+    }
+  }
 }
