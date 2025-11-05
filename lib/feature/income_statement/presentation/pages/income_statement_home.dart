@@ -4,6 +4,7 @@ import 'package:financial_project/core/global_widgets.dart';
 import 'package:financial_project/core/utils.dart';
 import 'package:financial_project/feature/income_statement/presentation/pages/incom_statement_client_page.dart';
 import 'package:financial_project/feature/income_statement/presentation/provider/income_statement_clients_provider.dart';
+import 'package:financial_project/feature/income_statement/presentation/widgets/home_statements_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -49,40 +50,30 @@ class _IncomeStatementHomeState extends State<IncomeStatementHome> {
             return Center(child: Text(response.message));
           }
           final clients = response.data!;
+          if (clients.isEmpty) {
+            return Center(
+              child: Text('No se encontraron estados de resultados'),
+            );
+          }
           return ListView.builder(
             itemCount: clients.length,
             itemBuilder: (context, index) {
               final client = clients[index];
-              final periodStart = Utils.dueDateString(
-                client.incomeStatement.periodStartDate,
-              );
-              final periodEnd = Utils.dueDateString(
-                client.incomeStatement.periodEndDate,
-              );
-              return ListTile(
-                title: Text(
-                  client.clientStatement.name,
-                  textAlign: TextAlign.center,
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 0.5.h,
+                  horizontal: 5.2.w,
                 ),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'NIT/CI: ${client.clientStatement.nitCi}',
-                      style: TextStyle(fontSize: 15.3.sp),
+                child: GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => IncomStatementClientPage(
+                        incomeStatementClient: client,
+                      ),
                     ),
-                    Text(
-                      'Periodo: $periodStart - $periodEnd',
-                      style: TextStyle(fontSize: 13.15.sp),
-                    ),
-                  ],
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        IncomStatementClientPage(incomeStatementClient: client),
                   ),
+                  child: HomeStatementsCard(client: client),
                 ),
               );
             },
