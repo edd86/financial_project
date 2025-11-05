@@ -6,8 +6,6 @@ class BalanceClient {
   final String nitCi;
   final BalanceSheet? balanceSheet;
 
-  var name;
-
   BalanceClient({
     required this.id,
     required this.businessName,
