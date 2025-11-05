@@ -44,6 +44,7 @@ class BalanceResume extends StatelessWidget {
             return Center(child: Text(snapshot.error.toString()));
           }
           if (snapshot.hasData) {
+            ///balanceResume todos los datos del balance general
             final balanceResume = snapshot.data!.data;
             if (balanceResume == null) {
               return Center(child: Text(snapshot.data!.message));
@@ -319,10 +320,13 @@ class BalanceResume extends StatelessWidget {
                                 balanceResume.totalLiabilities,
                               ),
                               style: TextStyle(
-                                fontSize: 20.78.sp,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 14.78.sp,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.black45,
                               ),
                             ),
+                            //Crea un espacio entre los elementos
+                            SizedBox(height: 1.5.h),
                             Text(
                               'Razón de endeudamiento',
                               style: TextStyle(fontSize: 16.85.sp),
@@ -339,6 +343,7 @@ class BalanceResume extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            SizedBox(height: 1.5.h),
                             Text(
                               'Quick Ratio',
                               style: TextStyle(fontSize: 16.85.sp),
