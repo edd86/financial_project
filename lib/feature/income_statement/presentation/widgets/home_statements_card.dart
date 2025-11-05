@@ -61,7 +61,10 @@ class HomeStatementsCard extends StatelessWidget {
                 children: [
                   IconButton(
                     color: Colors.deepPurple,
-                    onPressed: () async {},
+                    onPressed: () async {
+                      //TODO: Navegar a la pantalla de edición
+                      //TODO: Construir el formulario de edición
+                    },
                     icon: Icon(Icons.edit),
                   ),
                   IconButton(
