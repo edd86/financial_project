@@ -6,7 +6,7 @@ class ClientStatementProvider extends ChangeNotifier {
 
   ClientStatement? get client => _client;
 
-  void setClient(ClientStatement client) {
+  void setClient(ClientStatement? client) {
     _client = client;
     notifyListeners();
   }
