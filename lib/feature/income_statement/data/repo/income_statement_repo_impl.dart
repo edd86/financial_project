@@ -72,7 +72,7 @@ class IncomeStatementRepoImpl implements IncomeStatementRepo {
 
     try {
       if (name == '') {
-        final res = await db.query('income_statements');
+        final res = await db.query('income_statements', orderBy: 'updated_at');
         if (res.isEmpty) {
           return Response.success(
             [],
@@ -160,23 +160,26 @@ class IncomeStatementRepoImpl implements IncomeStatementRepo {
 
   //Construccion de los métodos de actualizar y eliminar
   @override
-  Future<Response<ClientStatement>> deleteClientStatement(
-    ClientStatement client,
+  Future<Response<IncomeStatement>> deleteClientStatement(
+    IncomeStatement incomeStatement,
   ) async {
     final db = await DatabaseHelper().database;
 
-    final clientModel = ClientStatementMapper.toModel(client);
+    final incomeStatementModel = IncomeStatementMapper.toModel(incomeStatement);
 
     try {
       final res = await db.delete(
         'income_statements',
         where: 'client_id = ?',
-        whereArgs: [clientModel.id],
+        whereArgs: [incomeStatementModel.id],
       );
       if (res <= 0) {
         return Response.error('No se pudo eliminar el estado');
       }
-      return Response.success(message: 'Estado eliminado con éxito', client);
+      return Response.success(
+        message: 'Estado eliminado con éxito',
+        incomeStatement,
+      );
     } catch (e) {
       return Response.error(e.toString());
     }

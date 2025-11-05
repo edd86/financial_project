@@ -15,7 +15,7 @@ abstract class IncomeStatementRepo {
   });
   Future<Response<ClientStatement>> getClientsStatementById(int id);
   //Metodo abstracto para actualiza y eliminar
-  Future<Response<ClientStatement>> deleteClientStatement(
-    ClientStatement client,
+  Future<Response<IncomeStatement>> deleteClientStatement(
+    IncomeStatement client,
   );
 }
